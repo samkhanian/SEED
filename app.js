@@ -13,6 +13,7 @@ let engine = null;
 let uiManager = null;
 let currentPage = 'home';
 let notificationTimeout = null;
+let lastFormData = null;  // ذخیره آخرین داده‌های فرم
 
 /**
  * ابتدایی‌سازی برنامه
@@ -82,18 +83,8 @@ function setupEventListeners() {
     });
   });
 
-  // سازی شناور رویدادهای رویدادهای صفحه اصلی
-  document.addEventListener('click', (e) => {
-    if (e.target.id === 'analyzeBtn') {
-      handleAnalysis();
-    }
-    if (e.target.id === 'clearBtn') {
-      handleClear();
-    }
-    if (e.target.id === 'backBtn') {
-      navigateTo('home');
-    }
-  });
+  // توجه: رویدادهای analyzeBtn و clearBtn در setupAnalysisListeners تنظیم می‌شوند
+  // برای جلوگیری از multiple listeners
 }
 
 /**
@@ -107,6 +98,10 @@ function navigateTo(page) {
     case 'analyzer':
       mainContent.innerHTML = uiManager.renderInputForm();
       setupAnalysisListeners();
+      // restore داده‌های فرم اگر وجود داشته باشد
+      if (lastFormData) {
+        restoreFormData(lastFormData);
+      }
       break;
     case 'info':
       mainContent.innerHTML = uiManager.renderInfoPage();
@@ -183,16 +178,25 @@ function showHomePage() {
  * تنظیم رویدادهای صفحه تحلیل
  */
 function setupAnalysisListeners() {
+  // حذف event listeners قدیمی و ایجاد جدید
   const analyzeBtn = document.getElementById('analyzeBtn');
   const clearBtn = document.getElementById('clearBtn');
 
   if (analyzeBtn) {
-    analyzeBtn.addEventListener('click', handleAnalysis);
+    // Clone و جایگزینی برای حذف listeners قدیمی
+    const newAnalyzeBtn = analyzeBtn.cloneNode(true);
+    analyzeBtn.parentNode.replaceChild(newAnalyzeBtn, analyzeBtn);
+    newAnalyzeBtn.addEventListener('click', handleAnalysis);
   }
 
   if (clearBtn) {
-    clearBtn.addEventListener('click', handleClear);
+    // Clone و جایگزینی برای حذف listeners قدیمی
+    const newClearBtn = clearBtn.cloneNode(true);
+    clearBtn.parentNode.replaceChild(newClearBtn, clearBtn);
+    newClearBtn.addEventListener('click', handleClear);
   }
+
+  console.log('✅ Analysis listeners تنظیم شدند');
 }
 
 /**
@@ -224,6 +228,9 @@ function handleAnalysis() {
   }
   
   console.log('✅ Validation موفق! شروع تحلیل...');
+  
+  // ذخیره داده‌های فرم برای بازگشت بعدی
+  lastFormData = { ...input };
 
   // تبدیل اعداد فارسی به انگلیسی اگر لازم باشد
   const processedInput = {
@@ -271,6 +278,28 @@ function getFormData() {
 }
 
 /**
+ * بازیابی داده‌های فرم
+ */
+function restoreFormData(data) {
+  if (!data) return;
+  
+  const fieldIds = [
+    'seedType', 'germinationRate', 'moisture', 'purity',
+    'diseaseResistance', 'season', 'province', 'temperature',
+    'rainfall', 'soilType'
+  ];
+
+  fieldIds.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field && data[fieldId]) {
+      field.value = data[fieldId];
+    }
+  });
+
+  console.log('✅ داده‌های فرم بازیابی شدند');
+}
+
+/**
  * نمایش نتایج
  */
 function displayResults(result) {
@@ -278,12 +307,26 @@ function displayResults(result) {
   clearNotification();
 
   const mainContent = document.getElementById('mainContent');
-  mainContent.innerHTML = uiManager.renderResults(result);
+  
+  // ایجاد یک wrapper برای نتایج
+  const resultsWrapper = document.createElement('div');
+  resultsWrapper.innerHTML = uiManager.renderResults(result);
+  
+  // حذف تمام محتوای قبلی
+  mainContent.innerHTML = '';
+  
+  // اضافه کردن نتایج
+  mainContent.appendChild(resultsWrapper.firstElementChild);
 
-  const backBtn = document.getElementById('backBtn');
-  if (backBtn) {
-    backBtn.addEventListener('click', () => navigateTo('analyzer'));
-  }
+  // تأخیر کوچک برای اطمینان از DOM update
+  setTimeout(() => {
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) {
+      backBtn.addEventListener('click', () => {
+        navigateTo('analyzer');
+      });
+    }
+  }, 100);
 }
 
 /**
