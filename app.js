@@ -12,6 +12,7 @@ let knowledgeBase = null;
 let engine = null;
 let uiManager = null;
 let currentPage = 'home';
+let notificationTimeout = null;
 
 /**
  * ابتدایی‌سازی برنامه
@@ -253,6 +254,9 @@ function getFormData() {
  * نمایش نتایج
  */
 function displayResults(result) {
+  // پاک کردن پیام اخطار/خطای قبلی
+  clearNotification();
+
   const mainContent = document.getElementById('mainContent');
   mainContent.innerHTML = uiManager.renderResults(result);
 
@@ -296,15 +300,31 @@ function updateNavButtons(page) {
 }
 
 /**
+ * پاک کردن پیام اخطار
+ */
+function clearNotification() {
+  if (notificationTimeout) {
+    clearTimeout(notificationTimeout);
+    notificationTimeout = null;
+  }
+  const notification = document.getElementById('notification');
+  if (notification) {
+    notification.style.display = 'none';
+  }
+}
+
+/**
  * نمایش پیام خطا
  */
 function showError(message) {
+  clearNotification();
   const notification = document.getElementById('notification') || createNotification();
   notification.textContent = message;
   notification.className = 'notification error';
   notification.style.display = 'block';
-  setTimeout(() => {
+  notificationTimeout = setTimeout(() => {
     notification.style.display = 'none';
+    notificationTimeout = null;
   }, 5000);
 }
 
@@ -312,12 +332,14 @@ function showError(message) {
  * نمایش پیام موفقیت
  */
 function showSuccess(message) {
+  clearNotification();
   const notification = document.getElementById('notification') || createNotification();
   notification.textContent = message;
   notification.className = 'notification success';
   notification.style.display = 'block';
-  setTimeout(() => {
+  notificationTimeout = setTimeout(() => {
     notification.style.display = 'none';
+    notificationTimeout = null;
   }, 3000);
 }
 
