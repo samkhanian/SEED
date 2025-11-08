@@ -165,24 +165,55 @@ class Utils {
   static validateInput(input) {
     const errors = [];
 
+    // بررسی فیلدهای الزامی (ضروری)
     if (!input.seedType || input.seedType.trim() === '') {
       errors.push('نوع بذر الزامی است');
     }
 
-    if (input.germinationRate && (input.germinationRate < 0 || input.germinationRate > 100)) {
+    if (!input.germinationRate || input.germinationRate === '') {
+      errors.push('درصد جوانه‌زنی الزامی است');
+    } else if (input.germinationRate < 0 || input.germinationRate > 100) {
       errors.push('جوانه‌زنی باید بین 0 و 100 باشد');
     }
 
-    if (input.moisture && (input.moisture < 0 || input.moisture > 30)) {
+    if (!input.moisture || input.moisture === '') {
+      errors.push('درصد رطوبت الزامی است');
+    } else if (input.moisture < 0 || input.moisture > 30) {
       errors.push('رطوبت باید بین 0 و 30 باشد');
     }
 
-    if (input.purity && (input.purity < 0 || input.purity > 100)) {
+    if (!input.purity || input.purity === '') {
+      errors.push('درصد خلوص الزامی است');
+    } else if (input.purity < 0 || input.purity > 100) {
       errors.push('خلوص باید بین 0 و 100 باشد');
     }
 
-    if (input.temperature && (input.temperature < -20 || input.temperature > 50)) {
+    if (!input.diseaseResistance || input.diseaseResistance.trim() === '') {
+      errors.push('مقاومت بیماری الزامی است');
+    }
+
+    if (!input.season || input.season.trim() === '') {
+      errors.push('فصل کاشت الزامی است');
+    }
+
+    if (!input.province || input.province.trim() === '') {
+      errors.push('استان الزامی است');
+    }
+
+    if (!input.temperature || input.temperature === '') {
+      errors.push('دمای میانگین الزامی است');
+    } else if (input.temperature < -20 || input.temperature > 50) {
       errors.push('دما باید بین -20 و 50 درجه سانتی‌گراد باشد');
+    }
+
+    if (!input.rainfall || input.rainfall === '') {
+      errors.push('میانگین بارندگی الزامی است');
+    } else if (input.rainfall < 0 || input.rainfall > 2000) {
+      errors.push('بارندگی باید بین 0 و 2000 میلی‌متر باشد');
+    }
+
+    if (!input.soilType || input.soilType.trim() === '') {
+      errors.push('نوع خاک الزامی است');
     }
 
     return {

@@ -204,7 +204,10 @@ function handleAnalysis() {
   // اعتبار سنجی
   const validation = Utils.validateInput(input);
   if (!validation.isValid) {
-    showError(validation.errors.join('\n'));
+    // ایجاد پیام خطای واضح‌تر
+    const errorMessage = '❌ خطاهای زیر را رفع کنید:\n\n' + 
+                         validation.errors.map((err, idx) => `${idx + 1}. ${err}`).join('\n');
+    showError(errorMessage);
     return;
   }
 
@@ -319,13 +322,16 @@ function clearNotification() {
 function showError(message) {
   clearNotification();
   const notification = document.getElementById('notification') || createNotification();
-  notification.textContent = message;
+  // استفاده از innerHTML برای نمایش line breaks
+  notification.innerHTML = message.split('\n').map(line => line || '<br>').join('<br>');
   notification.className = 'notification error';
   notification.style.display = 'block';
+  notification.style.whiteSpace = 'pre-wrap';
+  notification.style.textAlign = 'right';
   notificationTimeout = setTimeout(() => {
     notification.style.display = 'none';
     notificationTimeout = null;
-  }, 5000);
+  }, 7000); // زمان بیشتر برای خواندن خطاهای متعدد
 }
 
 /**

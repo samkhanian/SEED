@@ -17,6 +17,7 @@ class UIManager {
     return `
       <div class="input-form">
         <h2>اطلاعات بذر و شرایط محیط</h2>
+        <p class="form-notice">تمام فیلدهای علامت‌دار با * الزامی هستند</p>
         
         <div class="form-section">
           <h3>مشخصات بذر</h3>
@@ -30,26 +31,26 @@ class UIManager {
           </div>
 
           <div class="form-group">
-            <label for="germinationRate">درصد جوانه‌زنی (%)</label>
-            <input type="number" id="germinationRate" min="0" max="100" placeholder="0-100">
+            <label for="germinationRate">درصد جوانه‌زنی (%) *</label>
+            <input type="number" id="germinationRate" min="0" max="100" placeholder="0-100" required>
             <small>بهترین: بالاتر از 85%</small>
           </div>
 
           <div class="form-group">
-            <label for="moisture">رطوبت (%)</label>
-            <input type="number" id="moisture" min="0" max="30" step="0.1" placeholder="0-30">
+            <label for="moisture">رطوبت (%) *</label>
+            <input type="number" id="moisture" min="0" max="30" step="0.1" placeholder="0-30" required>
             <small>بهترین: 8-14%</small>
           </div>
 
           <div class="form-group">
-            <label for="purity">خلوص (%)</label>
-            <input type="number" id="purity" min="0" max="100" placeholder="0-100">
+            <label for="purity">خلوص (%) *</label>
+            <input type="number" id="purity" min="0" max="100" placeholder="0-100" required>
             <small>بهترین: بالاتر از 90%</small>
           </div>
 
           <div class="form-group">
-            <label for="diseaseResistance">مقاومت بیماری</label>
-            <select id="diseaseResistance">
+            <label for="diseaseResistance">مقاومت بیماری *</label>
+            <select id="diseaseResistance" required>
               <option value="">انتخاب کنید</option>
               <option value="زیاد">زیاد</option>
               <option value="متوسط">متوسط</option>
@@ -62,8 +63,8 @@ class UIManager {
           <h3>شرایط محیط</h3>
 
           <div class="form-group">
-            <label for="season">فصل کاشت</label>
-            <select id="season">
+            <label for="season">فصل کاشت *</label>
+            <select id="season" required>
               <option value="">انتخاب کنید</option>
               <option value="بهار">بهار</option>
               <option value="تابستان">تابستان</option>
@@ -73,26 +74,26 @@ class UIManager {
           </div>
 
           <div class="form-group">
-            <label for="province">استان</label>
-            <select id="province">
+            <label for="province">استان *</label>
+            <select id="province" required>
               <option value="">انتخاب کنید</option>
               ${this.getProvinceOptions()}
             </select>
           </div>
 
           <div class="form-group">
-            <label for="temperature">دمای میانگین (°C)</label>
-            <input type="number" id="temperature" min="-20" max="50" placeholder="-20 تا 50">
+            <label for="temperature">دمای میانگین (°C) *</label>
+            <input type="number" id="temperature" min="-20" max="50" placeholder="-20 تا 50" required>
           </div>
 
           <div class="form-group">
-            <label for="rainfall">میانگین بارندگی (میلی‌متر)</label>
-            <input type="number" id="rainfall" min="0" max="2000" placeholder="0-2000">
+            <label for="rainfall">میانگین بارندگی (میلی‌متر) *</label>
+            <input type="number" id="rainfall" min="0" max="2000" placeholder="0-2000" required>
           </div>
 
           <div class="form-group">
-            <label for="soilType">نوع خاک</label>
-            <select id="soilType">
+            <label for="soilType">نوع خاک *</label>
+            <select id="soilType" required>
               <option value="">انتخاب کنید</option>
               <option value="رسی">رسی</option>
               <option value="لومی">لومی</option>
