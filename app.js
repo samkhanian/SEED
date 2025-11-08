@@ -51,12 +51,14 @@ async function initializeApp() {
 async function loadKnowledgeBase() {
   try {
     // بارگذاری فایل‌های JSON
-    const knowledge = await fetch('data/knowledge.json').then(r => r.json());
+    const knowledgeFile = await fetch('data/knowledge.json').then(r => r.json());
     const seedTypes = await fetch('data/seed-types.json').then(r => r.json());
     const provinces = await fetch('data/provinces.json').then(r => r.json());
 
+    // ترکیب تمام داده‌های پایگاه دانش
+    // توجه: knowledge.json دارای ساختار { knowledge: {...} } است
     return {
-      knowledge: knowledge,
+      knowledge: knowledgeFile.knowledge || knowledgeFile,
       seedTypes: seedTypes.seedTypes || [],
       provinces: provinces.provinces || []
     };
@@ -208,14 +210,14 @@ function handleAnalysis() {
   // تبدیل اعداد فارسی به انگلیسی اگر لازم باشد
   const processedInput = {
     seedType: input.seedType,
-    germinationRate: input.germinationRate ? parseFloat(Utils.persianToEnglish(input.germinationRate.toString())) : undefined,
-    moisture: input.moisture ? parseFloat(Utils.persianToEnglish(input.moisture.toString())) : undefined,
-    purity: input.purity ? parseFloat(Utils.persianToEnglish(input.purity.toString())) : undefined,
+    germinationRate: input.germinationRate ? parseFloat(Utils.persianToEnglish(input.germinationRate.toString())) : 0,
+    moisture: input.moisture ? parseFloat(Utils.persianToEnglish(input.moisture.toString())) : 0,
+    purity: input.purity ? parseFloat(Utils.persianToEnglish(input.purity.toString())) : 0,
     diseaseResistance: input.diseaseResistance,
     season: input.season,
     province: input.province,
-    temperature: input.temperature ? parseFloat(Utils.persianToEnglish(input.temperature.toString())) : undefined,
-    rainfall: input.rainfall ? parseFloat(Utils.persianToEnglish(input.rainfall.toString())) : undefined,
+    temperature: input.temperature ? parseFloat(Utils.persianToEnglish(input.temperature.toString())) : 0,
+    rainfall: input.rainfall ? parseFloat(Utils.persianToEnglish(input.rainfall.toString())) : 0,
     soilType: input.soilType
   };
 
