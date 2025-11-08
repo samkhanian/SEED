@@ -258,8 +258,6 @@ THEN
 
 1. Giarratano, J. C., & Riley, G. D. (2004). Expert Systems: Principles and Programming
 2. Russell, S. J., & Norvig, P. (2020). Artificial Intelligence: A Modern Approach
-3. سازمان تحقیقات شاخص دانه‌های ایران - گزارش 1402
-4. آیین‌نامه‌های انجمن بذر ایران (1401-1402)
 
 ---
 
