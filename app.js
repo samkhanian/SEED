@@ -201,15 +201,29 @@ function setupAnalysisListeners() {
 function handleAnalysis() {
   const input = getFormData();
   
+  // چاپ debugging
+  console.log('فرم داده‌ها:', input);
+  
   // اعتبار سنجی
   const validation = Utils.validateInput(input);
+  console.log('نتیجه validation:', validation);
+  
   if (!validation.isValid) {
     // ایجاد پیام خطای واضح‌تر
-    const errorMessage = '❌ خطاهای زیر را رفع کنید:\n\n' + 
-                         validation.errors.map((err, idx) => `${idx + 1}. ${err}`).join('\n');
+    let errorMessage = '❌ خطاهای زیر را رفع کنید:\n\n';
+    
+    if (validation.errors.length === 0) {
+      errorMessage += 'خطای نامشخص در validation\n\nلطفا دوباره سعی کنید';
+      console.error('خطای نامشخص:', { input, validation });
+    } else {
+      errorMessage += validation.errors.map((err, idx) => `${idx + 1}. ${err}`).join('\n');
+    }
+    
     showError(errorMessage);
     return;
   }
+  
+  console.log('✅ Validation موفق! شروع تحلیل...');
 
   // تبدیل اعداد فارسی به انگلیسی اگر لازم باشد
   const processedInput = {
@@ -239,18 +253,21 @@ function handleAnalysis() {
  * دریافت داده‌های فرم
  */
 function getFormData() {
-  return {
-    seedType: document.getElementById('seedType')?.value || '',
-    germinationRate: document.getElementById('germinationRate')?.value || '',
-    moisture: document.getElementById('moisture')?.value || '',
-    purity: document.getElementById('purity')?.value || '',
-    diseaseResistance: document.getElementById('diseaseResistance')?.value || '',
-    season: document.getElementById('season')?.value || '',
-    province: document.getElementById('province')?.value || '',
-    temperature: document.getElementById('temperature')?.value || '',
-    rainfall: document.getElementById('rainfall')?.value || '',
-    soilType: document.getElementById('soilType')?.value || ''
+  const data = {
+    seedType: (document.getElementById('seedType')?.value || '').toString().trim(),
+    germinationRate: (document.getElementById('germinationRate')?.value || '').toString().trim(),
+    moisture: (document.getElementById('moisture')?.value || '').toString().trim(),
+    purity: (document.getElementById('purity')?.value || '').toString().trim(),
+    diseaseResistance: (document.getElementById('diseaseResistance')?.value || '').toString().trim(),
+    season: (document.getElementById('season')?.value || '').toString().trim(),
+    province: (document.getElementById('province')?.value || '').toString().trim(),
+    temperature: (document.getElementById('temperature')?.value || '').toString().trim(),
+    rainfall: (document.getElementById('rainfall')?.value || '').toString().trim(),
+    soilType: (document.getElementById('soilType')?.value || '').toString().trim()
   };
+  
+  console.log('داده‌های خام فرم:', data);
+  return data;
 }
 
 /**

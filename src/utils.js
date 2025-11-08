@@ -160,77 +160,124 @@ class Utils {
   }
 
   /**
+   * بررسی آیا یک مقدار خالی/نامعتبر است (فقط برای strings)
+   */
+  static isEmptyString(value) {
+    return !value || (typeof value === 'string' && value.trim() === '');
+  }
+
+  /**
    * اعتبار سنجی ورودی‌ها
    */
   static validateInput(input) {
     const errors = [];
 
-    // بررسی فیلدهای الزامی (ضروری)
-    if (!input.seedType || input.seedType.trim() === '') {
+    console.log('=== شروع Validation ===');
+    console.log('input:', input);
+
+    // 1. نوع بذر - text
+    if (this.isEmptyString(input.seedType)) {
       errors.push('نوع بذر الزامی است');
+    } else {
+      console.log('✓ seedType:', input.seedType);
     }
 
-    // برای فیلدهای عددی، بررسی کنید که string خالی نیست (صفر مقدار معتبری است)
-    if (input.germinationRate === '' || input.germinationRate === null || input.germinationRate === undefined) {
+    // 2. جوانه‌زنی - عدد
+    const germRate = String(input.germinationRate).trim();
+    if (!germRate || germRate === '') {
       errors.push('درصد جوانه‌زنی الزامی است');
     } else {
-      const value = parseFloat(input.germinationRate);
-      if (isNaN(value) || value < 0 || value > 100) {
+      const val = parseFloat(germRate);
+      if (isNaN(val) || val < 0 || val > 100) {
         errors.push('جوانه‌زنی باید بین 0 و 100 باشد');
+      } else {
+        console.log('✓ germinationRate:', val);
       }
     }
 
-    if (input.moisture === '' || input.moisture === null || input.moisture === undefined) {
+    // 3. رطوبت - عدد
+    const moistureVal = String(input.moisture).trim();
+    if (!moistureVal || moistureVal === '') {
       errors.push('درصد رطوبت الزامی است');
     } else {
-      const value = parseFloat(input.moisture);
-      if (isNaN(value) || value < 0 || value > 30) {
+      const val = parseFloat(moistureVal);
+      if (isNaN(val) || val < 0 || val > 30) {
         errors.push('رطوبت باید بین 0 و 30 باشد');
+      } else {
+        console.log('✓ moisture:', val);
       }
     }
 
-    if (input.purity === '' || input.purity === null || input.purity === undefined) {
+    // 4. خلوص - عدد
+    const purityVal = String(input.purity).trim();
+    if (!purityVal || purityVal === '') {
       errors.push('درصد خلوص الزامی است');
     } else {
-      const value = parseFloat(input.purity);
-      if (isNaN(value) || value < 0 || value > 100) {
+      const val = parseFloat(purityVal);
+      if (isNaN(val) || val < 0 || val > 100) {
         errors.push('خلوص باید بین 0 و 100 باشد');
+      } else {
+        console.log('✓ purity:', val);
       }
     }
 
-    if (!input.diseaseResistance || input.diseaseResistance.trim() === '') {
+    // 5. مقاومت بیماری - select
+    if (this.isEmptyString(input.diseaseResistance)) {
       errors.push('مقاومت بیماری الزامی است');
+    } else {
+      console.log('✓ diseaseResistance:', input.diseaseResistance);
     }
 
-    if (!input.season || input.season.trim() === '') {
+    // 6. فصل - select
+    if (this.isEmptyString(input.season)) {
       errors.push('فصل کاشت الزامی است');
+    } else {
+      console.log('✓ season:', input.season);
     }
 
-    if (!input.province || input.province.trim() === '') {
+    // 7. استان - select
+    if (this.isEmptyString(input.province)) {
       errors.push('استان الزامی است');
+    } else {
+      console.log('✓ province:', input.province);
     }
 
-    if (input.temperature === '' || input.temperature === null || input.temperature === undefined) {
+    // 8. دما - عدد
+    const tempVal = String(input.temperature).trim();
+    if (!tempVal || tempVal === '') {
       errors.push('دمای میانگین الزامی است');
     } else {
-      const value = parseFloat(input.temperature);
-      if (isNaN(value) || value < -20 || value > 50) {
+      const val = parseFloat(tempVal);
+      if (isNaN(val) || val < -20 || val > 50) {
         errors.push('دما باید بین -20 و 50 درجه سانتی‌گراد باشد');
+      } else {
+        console.log('✓ temperature:', val);
       }
     }
 
-    if (input.rainfall === '' || input.rainfall === null || input.rainfall === undefined) {
+    // 9. بارندگی - عدد
+    const rainfallVal = String(input.rainfall).trim();
+    if (!rainfallVal || rainfallVal === '') {
       errors.push('میانگین بارندگی الزامی است');
     } else {
-      const value = parseFloat(input.rainfall);
-      if (isNaN(value) || value < 0 || value > 2000) {
+      const val = parseFloat(rainfallVal);
+      if (isNaN(val) || val < 0 || val > 2000) {
         errors.push('بارندگی باید بین 0 و 2000 میلی‌متر باشد');
+      } else {
+        console.log('✓ rainfall:', val);
       }
     }
 
-    if (!input.soilType || input.soilType.trim() === '') {
+    // 10. نوع خاک - select
+    if (this.isEmptyString(input.soilType)) {
       errors.push('نوع خاک الزامی است');
+    } else {
+      console.log('✓ soilType:', input.soilType);
     }
+
+    console.log('=== نتیجه Validation ===');
+    console.log('خطاها:', errors);
+    console.log('معتبر:', errors.length === 0);
 
     return {
       isValid: errors.length === 0,
