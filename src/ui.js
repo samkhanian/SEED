@@ -211,13 +211,14 @@ class UIManager {
    * دریافت گزینه‌های نوع بذر
    */
   getSeedTypeOptions() {
-    if (!this.knowledgeBase.seedTypes) return '';
+    const seedTypes = this.knowledgeBase?.seedTypes || [];
+    if (!seedTypes || seedTypes.length === 0) return '';
     
-    const types = [...new Set(this.knowledgeBase.seedTypes.map(s => s.type))];
+    const types = [...new Set(seedTypes.map(s => s.type))];
     let html = '';
     
     types.forEach(type => {
-      const seeds = this.knowledgeBase.seedTypes.filter(s => s.type === type);
+      const seeds = seedTypes.filter(s => s.type === type);
       html += `<optgroup label="${type}">`;
       seeds.forEach(seed => {
         html += `<option value="${seed.name}">${seed.name}</option>`;
@@ -232,9 +233,10 @@ class UIManager {
    * دریافت گزینه‌های استان
    */
   getProvinceOptions() {
-    if (!this.knowledgeBase.provinces) return '';
+    const provinces = this.knowledgeBase?.provinces || [];
+    if (!provinces || provinces.length === 0) return '';
     
-    return this.knowledgeBase.provinces.map(p => 
+    return provinces.map(p => 
       `<option value="${p.name}">${p.name}</option>`
     ).join('');
   }

@@ -30,7 +30,7 @@ async function initializeApp() {
     engine = new InferenceEngine(knowledgeBase);
     
     // ایجاد مدیر رابط کاربری
-    uiManager = new UIManager(knowledgeBase.seedTypes || [], engine);
+    uiManager = new UIManager(knowledgeBase, engine);
 
     // نمایش صفحه خانه
     showHomePage();
