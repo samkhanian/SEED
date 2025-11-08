@@ -1,358 +1,339 @@
 /**
  * سیستم خبره انتخاب بذر کاشت
- * اسکریپت اصلی (App Logic)
- * استاد: دکتر نمیریان
+ * Seed Selection Expert System
+ * 
+ * استفاده از معماری سیستم‌های خبره:
+ * - پایگاه دانش (Knowledge Base)
+ * - موتور استنتاج (Inference Engine)
+ * - رابط کاربری (User Interface)
  */
 
-// متغیرهای سراسری
 let knowledgeBase = null;
-let inferenceEngine = null;
+let engine = null;
+let uiManager = null;
+let currentPage = 'home';
 
 /**
- * بارگذاری اولیه
+ * ابتدایی‌سازی برنامه
  */
-document.addEventListener("DOMContentLoaded", async () => {
-    await loadKnowledgeBase();
-    populateSelects();
+async function initializeApp() {
+  try {
+    // بارگذاری پایگاه دانش
+    knowledgeBase = await loadKnowledgeBase();
+    
+    if (!knowledgeBase) {
+      showError('خطا: نمی‌توان پایگاه دانش را بارگذاری کرد');
+      return;
+    }
+
+    // ایجاد موتور استنتاج
+    engine = new InferenceEngine(knowledgeBase);
+    
+    // ایجاد مدیر رابط کاربری
+    uiManager = new UIManager(knowledgeBase.seedTypes || [], engine);
+
+    // نمایش صفحه خانه
+    showHomePage();
+
+    // اتصال رویدادهای صفحه
     setupEventListeners();
-});
+
+    console.log('✅ برنامه با موفقیت شروع شد');
+  } catch (error) {
+    console.error('❌ خطا در ابتدایی‌سازی:', error);
+    showError('خطا در بارگذاری برنامه');
+  }
+}
 
 /**
- * بارگذاری پایگاه دانش از فایل JSON یا fallback data
+ * بارگذاری پایگاه دانش
  */
 async function loadKnowledgeBase() {
-    try {
-        // سعی برای بارگذاری از فایل
-        try {
-            const response = await fetch("knowledge.json");
-            if (response.ok) {
-                knowledgeBase = await response.json();
-                inferenceEngine = new InferenceEngine(knowledgeBase);
-                console.log("✅ پایگاه دانش از فایل بارگذاری شد");
-                return;
-            }
-        } catch (fetchError) {
-            console.warn("⚠️ خطا در fetch - استفاده از داده embedded:", fetchError);
-        }
+  try {
+    // بارگذاری فایل‌های JSON
+    const knowledge = await fetch('data/knowledge.json').then(r => r.json());
+    const seedTypes = await fetch('data/seed-types.json').then(r => r.json());
+    const provinces = await fetch('data/provinces.json').then(r => r.json());
 
-        // استفاده از داده embedded (fallback)
-        if (typeof KNOWLEDGE_BASE !== 'undefined') {
-            knowledgeBase = KNOWLEDGE_BASE;
-            inferenceEngine = new InferenceEngine(knowledgeBase);
-            console.log("✅ پایگاه دانش از داده embedded بارگذاری شد");
-        } else {
-            throw new Error("نتوانست داده پایگاه دانش را بارگذاری کند");
-        }
-    } catch (error) {
-        console.error("❌ خطای جدی:", error);
-        showError("خطا در بارگذاری پایگاه دانش! لطفاً صفحه را دوباره بارگذاری کنید.");
-    }
+    return {
+      knowledge: knowledge,
+      seedTypes: seedTypes.seedTypes || [],
+      provinces: provinces.provinces || []
+    };
+  } catch (error) {
+    console.error('خطا در بارگذاری پایگاه دانش:', error);
+    return null;
+  }
 }
 
 /**
- * تعیین گزینه‌های لیست‌های کشویی
- */
-function populateSelects() {
-    if (!knowledgeBase) return;
-
-    // بذرها
-    const seedSelect = document.getElementById("seedSelect");
-    knowledgeBase.seeds.forEach(seed => {
-        const option = document.createElement("option");
-        option.value = seed.id;
-        option.textContent = `${seed.name} (${seed.type})`;
-        seedSelect.appendChild(option);
-    });
-
-    // استان‌ها
-    const provinceSelect = document.getElementById("provinceSelect");
-    knowledgeBase.provinces.forEach(province => {
-        const option = document.createElement("option");
-        option.value = province.id;
-        option.textContent = province.name;
-        provinceSelect.appendChild(option);
-    });
-}
-
-/**
- * تنظیم رویدادهای فرم
+ * اتصال رویدادهای صفحه
  */
 function setupEventListeners() {
-    const form = document.getElementById("seedForm");
-    form.addEventListener("submit", handleFormSubmit);
-    form.addEventListener("reset", resetResults);
-
-    // اضافه کردن slider نمایشی برای اعداد
-    const rangeInputs = document.querySelectorAll(".range-input");
-    rangeInputs.forEach(input => {
-        input.addEventListener("input", (e) => {
-            updateRangeDisplay(e.target);
-        });
+  // دکمه‌های ناوبری
+  const navButtons = document.querySelectorAll('.nav-btn');
+  navButtons.forEach(btn => {
+    btn.addEventListener('click', function() {
+      const page = this.getAttribute('data-page');
+      navigateTo(page);
     });
+  });
+
+  // سازی شناور رویدادهای رویدادهای صفحه اصلی
+  document.addEventListener('click', (e) => {
+    if (e.target.id === 'analyzeBtn') {
+      handleAnalysis();
+    }
+    if (e.target.id === 'clearBtn') {
+      handleClear();
+    }
+    if (e.target.id === 'backBtn') {
+      navigateTo('home');
+    }
+  });
 }
 
 /**
- * به‌روزرسانی نمایش مقدار اسلایدر
+ * ناوبری بین صفحات
  */
-function updateRangeDisplay(input) {
-    const label = input.previousElementSibling || input.parentElement.querySelector("label");
-    if (label) {
-        // فقط مقدار را به‌روزرسانی کنید
-        console.log(`${input.id}: ${input.value}`);
-    }
+function navigateTo(page) {
+  currentPage = page;
+  const mainContent = document.getElementById('mainContent');
+
+  switch (page) {
+    case 'analyzer':
+      mainContent.innerHTML = uiManager.renderInputForm();
+      setupAnalysisListeners();
+      break;
+    case 'info':
+      mainContent.innerHTML = uiManager.renderInfoPage();
+      break;
+    case 'history':
+      mainContent.innerHTML = uiManager.renderHistory();
+      break;
+    case 'home':
+    default:
+      showHomePage();
+  }
+
+  // تحدیث دکمه‌های ناوبری
+  updateNavButtons(page);
 }
 
 /**
- * مدیریت ارسال فرم
+ * نمایش صفحه خانه
  */
-function handleFormSubmit(e) {
-    e.preventDefault();
+function showHomePage() {
+  const mainContent = document.getElementById('mainContent');
+  mainContent.innerHTML = `
+    <div class="home-container">
+      <div class="welcome-section">
+        <h2>خوش‌آمدید به سیستم خبره انتخاب بذر</h2>
+        <p>این سیستم به کشاورزان کمک می‌کند تا بذر مناسب را برای شرایط محلی خود انتخاب کنند.</p>
+      </div>
 
-    // جمع‌آوری داده‌های فرم
-    const formData = {
-        seedId: document.getElementById("seedSelect").value,
-        provinceId: document.getElementById("provinceSelect").value,
-        germination: parseFloat(document.getElementById("germination").value),
-        moisture: parseFloat(document.getElementById("moisture").value),
-        purity: parseFloat(document.getElementById("purity").value),
-        season: document.getElementById("season").value,
-        soilType: document.getElementById("soilType").value,
-        health: document.getElementById("health").value,
-        diseaseResistance: document.getElementById("diseaseResistance").value
-    };
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-icon">🔍</div>
+          <h3>تجزیه و تحلیل دقیق</h3>
+          <p>با استفاده از دانش متخصصین کشاورزی</p>
+        </div>
 
-    // بررسی اعتبار
-    if (!formData.seedId || !formData.provinceId || !formData.season || !formData.soilType) {
-        showError("لطفاً تمام فیلدهای ضروری را پر کنید!");
-        return;
-    }
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3>نمره‌دهی جامع</h3>
+          <p>بر اساس معیارهای علمی و تجربی</p>
+        </div>
 
-    // اجرای تحلیل
-    const result = inferenceEngine.analyzeSeed(formData);
+        <div class="feature-card">
+          <div class="feature-icon">💡</div>
+          <h3>توصیه‌های عملی</h3>
+          <p>راهنمایی‌های گام‌به‌گام برای موفقیت</p>
+        </div>
+      </div>
 
-    if (result.success) {
-        displayResults(result);
-    } else {
-        showError(result.error || "خطای نامشخص");
-    }
+      <div class="action-section">
+        <button class="btn btn-primary btn-large" onclick="navigateTo('analyzer')">
+          شروع تجزیه و تحلیل
+        </button>
+      </div>
+
+      <div class="stats">
+        <div class="stat">
+          <div class="stat-number">${knowledgeBase?.seedTypes?.length || 0}+</div>
+          <div class="stat-label">نوع بذر</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">${knowledgeBase?.knowledge?.ruleBasedKnowledge?.rules?.length || 0}+</div>
+          <div class="stat-label">قاعده منطقی</div>
+        </div>
+        <div class="stat">
+          <div class="stat-number">${knowledgeBase?.provinces?.length || 0}</div>
+          <div class="stat-label">استان ایران</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+/**
+ * تنظیم رویدادهای صفحه تحلیل
+ */
+function setupAnalysisListeners() {
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const clearBtn = document.getElementById('clearBtn');
+
+  if (analyzeBtn) {
+    analyzeBtn.addEventListener('click', handleAnalysis);
+  }
+
+  if (clearBtn) {
+    clearBtn.addEventListener('click', handleClear);
+  }
+}
+
+/**
+ * مدیریت تجزیه و تحلیل
+ */
+function handleAnalysis() {
+  const input = getFormData();
+  
+  // اعتبار سنجی
+  const validation = Utils.validateInput(input);
+  if (!validation.isValid) {
+    showError(validation.errors.join('\n'));
+    return;
+  }
+
+  // تبدیل اعداد فارسی به انگلیسی اگر لازم باشد
+  const processedInput = {
+    seedType: input.seedType,
+    germinationRate: input.germinationRate ? parseFloat(Utils.persianToEnglish(input.germinationRate.toString())) : undefined,
+    moisture: input.moisture ? parseFloat(Utils.persianToEnglish(input.moisture.toString())) : undefined,
+    purity: input.purity ? parseFloat(Utils.persianToEnglish(input.purity.toString())) : undefined,
+    diseaseResistance: input.diseaseResistance,
+    season: input.season,
+    province: input.province,
+    temperature: input.temperature ? parseFloat(Utils.persianToEnglish(input.temperature.toString())) : undefined,
+    rainfall: input.rainfall ? parseFloat(Utils.persianToEnglish(input.rainfall.toString())) : undefined,
+    soilType: input.soilType
+  };
+
+  // اجرای موتور استنتاج
+  const result = engine.inferenceForward(processedInput);
+
+  // ذخیره نتیجه
+  Utils.saveAnalysisResult(result);
+
+  // نمایش نتایج
+  displayResults(result);
+}
+
+/**
+ * دریافت داده‌های فرم
+ */
+function getFormData() {
+  return {
+    seedType: document.getElementById('seedType')?.value || '',
+    germinationRate: document.getElementById('germinationRate')?.value || '',
+    moisture: document.getElementById('moisture')?.value || '',
+    purity: document.getElementById('purity')?.value || '',
+    diseaseResistance: document.getElementById('diseaseResistance')?.value || '',
+    season: document.getElementById('season')?.value || '',
+    province: document.getElementById('province')?.value || '',
+    temperature: document.getElementById('temperature')?.value || '',
+    rainfall: document.getElementById('rainfall')?.value || '',
+    soilType: document.getElementById('soilType')?.value || ''
+  };
 }
 
 /**
  * نمایش نتایج
  */
 function displayResults(result) {
-    // مخفی کردن حالات دیگر
-    document.getElementById("defaultState").classList.add("hidden");
-    document.getElementById("errorState").classList.add("hidden");
-    document.getElementById("resultsState").classList.remove("hidden");
+  const mainContent = document.getElementById('mainContent');
+  mainContent.innerHTML = uiManager.renderResults(result);
 
-    // نتیجه نهایی
-    document.getElementById("overallScore").textContent = result.overallScore;
-    document.getElementById("verdictMessage").textContent = result.verdict;
-    document.getElementById("verdictEmoji").textContent = result.statusEmoji;
-
-    // تغییر رنگ بر اساس امتیاز
-    updateVerdictColor(result.overallScore);
-
-    // اطلاعات بذر
-    document.getElementById("seedName").textContent = result.seedName;
-    document.getElementById("seedType").textContent = result.seedType;
-    document.getElementById("provinceName").textContent = result.provinceName;
-    document.getElementById("season").textContent = result.season;
-
-    // امتیازات تفصیلی
-    displayDetailedScores(result.details);
-
-    // توصیه‌ها
-    displayRecommendations(result.recommendations);
-
-    // اطلاعات محیطی
-    document.getElementById("avgTemp").textContent = `${result.additionalInfo.avgTemperature}°C`;
-    document.getElementById("avgRainfall").textContent = `${result.additionalInfo.avgRainfall} میلی‌متر`;
-    document.getElementById("climate").textContent = result.additionalInfo.climate;
-
-    // پیمایش به نتایج
-    setTimeout(() => {
-        document.getElementById("resultsState").scrollIntoView({ behavior: "smooth" });
-    }, 100);
+  const backBtn = document.getElementById('backBtn');
+  if (backBtn) {
+    backBtn.addEventListener('click', () => navigateTo('analyzer'));
+  }
 }
 
 /**
- * نمایش امتیازات تفصیلی
+ * حذف داده‌های فرم
  */
-function displayDetailedScores(details) {
-    // جوانه‌زنی
-    updateScoreBar("germinationBar", details.germination.score);
-    document.getElementById("germinationScore").textContent =
-        `${Math.round(details.germination.score)}%`;
+function handleClear() {
+  const formFields = [
+    'seedType', 'germinationRate', 'moisture', 'purity',
+    'diseaseResistance', 'season', 'province', 'temperature',
+    'rainfall', 'soilType'
+  ];
 
-    // رطوبت
-    updateScoreBar("moistureBar", details.moisture.score);
-    document.getElementById("moistureScore").textContent =
-        `${Math.round(details.moisture.score)}%`;
-
-    // خلوص
-    updateScoreBar("purityBar", details.purity.score);
-    document.getElementById("purityScore").textContent =
-        `${Math.round(details.purity.score)}%`;
-
-    // مقاومت بیماری
-    updateScoreBar("diseaseBar", details.diseaseResistance.score);
-    document.getElementById("diseaseScore").textContent =
-        `${Math.round(details.diseaseResistance.score)}%`;
-}
-
-/**
- * به‌روزرسانی نوار امتیاز
- */
-function updateScoreBar(barId, score) {
-    const bar = document.getElementById(barId);
-    const percentage = Math.min(Math.max(score, 0), 100);
-    bar.style.width = percentage + "%";
-
-    // تغییر رنگ بر اساس مقدار
-    if (percentage >= 80) {
-        bar.style.background = "linear-gradient(90deg, #27ae60 0%, #52be80 100%)";
-    } else if (percentage >= 60) {
-        bar.style.background = "linear-gradient(90deg, #f39c12 0%, #f5b041 100%)";
-    } else {
-        bar.style.background = "linear-gradient(90deg, #e74c3c 0%, #f17060 100%)";
+  formFields.forEach(fieldId => {
+    const field = document.getElementById(fieldId);
+    if (field) {
+      field.value = '';
     }
+  });
+
+  showSuccess('فرم پاک شد');
 }
 
 /**
- * نمایش توصیه‌ها
+ * به روز رسانی دکمه‌های ناوبری
  */
-function displayRecommendations(recommendations) {
-    const list = document.getElementById("recommendationsList");
-    list.innerHTML = "";
-
-    if (recommendations.length === 0) {
-        list.innerHTML = '<p class="no-recommendations">توصیه‌ای وجود ندارد</p>';
-        return;
+function updateNavButtons(page) {
+  const navButtons = document.querySelectorAll('.nav-btn');
+  navButtons.forEach(btn => {
+    btn.classList.remove('active');
+    if (btn.getAttribute('data-page') === page) {
+      btn.classList.add('active');
     }
-
-    recommendations.forEach(rec => {
-        const item = document.createElement("div");
-        item.className = "recommendation-item";
-        item.innerHTML = `<span>${rec}</span>`;
-        list.appendChild(item);
-    });
+  });
 }
 
 /**
- * به‌روزرسانی رنگ نتیجه نهایی
- */
-function updateVerdictColor(score) {
-    const card = document.querySelector(".verdict-card");
-    
-    if (score >= 85) {
-        card.style.borderColor = "rgba(39, 174, 96, 0.3)";
-        card.style.background = "linear-gradient(135deg, rgba(39, 174, 96, 0.05) 0%, rgba(39, 174, 96, 0.1) 100%)";
-    } else if (score >= 70) {
-        card.style.borderColor = "rgba(243, 156, 18, 0.3)";
-        card.style.background = "linear-gradient(135deg, rgba(243, 156, 18, 0.05) 0%, rgba(243, 156, 18, 0.1) 100%)";
-    } else {
-        card.style.borderColor = "rgba(231, 76, 60, 0.3)";
-        card.style.background = "linear-gradient(135deg, rgba(231, 76, 60, 0.05) 0%, rgba(231, 76, 60, 0.1) 100%)";
-    }
-}
-
-/**
- * نمایش خطا
+ * نمایش پیام خطا
  */
 function showError(message) {
-    document.getElementById("defaultState").classList.add("hidden");
-    document.getElementById("resultsState").classList.add("hidden");
-    document.getElementById("errorState").classList.remove("hidden");
-    document.getElementById("errorMessage").textContent = message;
+  const notification = document.getElementById('notification') || createNotification();
+  notification.textContent = message;
+  notification.className = 'notification error';
+  notification.style.display = 'block';
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 5000);
 }
 
 /**
- * بازنشانی نتایج
+ * نمایش پیام موفقیت
  */
-function resetResults() {
-    document.getElementById("defaultState").classList.remove("hidden");
-    document.getElementById("resultsState").classList.add("hidden");
-    document.getElementById("errorState").classList.add("hidden");
+function showSuccess(message) {
+  const notification = document.getElementById('notification') || createNotification();
+  notification.textContent = message;
+  notification.className = 'notification success';
+  notification.style.display = 'block';
+  setTimeout(() => {
+    notification.style.display = 'none';
+  }, 3000);
 }
 
 /**
- * تابع بازگشت (برای دکمه خطا)
+ * ایجاد عنصر اطلاع‌رسانی
  */
-function resetForm() {
-    document.getElementById("seedForm").reset();
-    resetResults();
+function createNotification() {
+  const notification = document.createElement('div');
+  notification.id = 'notification';
+  document.body.appendChild(notification);
+  return notification;
 }
 
 /**
- * صادر کردن نتایج (اختیاری)
+ * بارگذاری برنامه هنگام آماده شدن DOM
  */
-function exportResults() {
-    const results = {
-        timestamp: new Date().toLocaleString("fa-IR"),
-        seedName: document.getElementById("seedName").textContent,
-        score: document.getElementById("overallScore").textContent,
-        verdict: document.getElementById("verdictMessage").textContent,
-        recommendations: Array.from(document.querySelectorAll(".recommendation-item"))
-            .map(item => item.textContent.trim())
-    };
-
-    const jsonString = JSON.stringify(results, null, 2);
-    const blob = new Blob([jsonString], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `seed-analysis-${Date.now()}.json`;
-    a.click();
-    URL.revokeObjectURL(url);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeApp);
+} else {
+  initializeApp();
 }
-
-/**
- * چاپ نتایج
- */
-function printResults() {
-    window.print();
-}
-
-/**
- * ذخیره در Local Storage
- */
-function saveResults() {
-    const results = {
-        timestamp: new Date().toLocaleString("fa-IR"),
-        seedName: document.getElementById("seedName").textContent,
-        provinceName: document.getElementById("provinceName").textContent,
-        season: document.getElementById("season").textContent,
-        score: document.getElementById("overallScore").textContent,
-        verdict: document.getElementById("verdictMessage").textContent
-    };
-
-    let history = JSON.parse(localStorage.getItem("seedAnalysisHistory") || "[]");
-    history.unshift(results);
-    history = history.slice(0, 10); // فقط 10 مورد اخیر
-
-    localStorage.setItem("seedAnalysisHistory", JSON.stringify(history));
-    alert("✅ نتایج ذخیره شد!");
-}
-
-/**
- * نمایش تاریخچه (اختیاری)
- */
-function showHistory() {
-    const history = JSON.parse(localStorage.getItem("seedAnalysisHistory") || "[]");
-    if (history.length === 0) {
-        alert("تاریخچه‌ای وجود ندارد");
-        return;
-    }
-
-    let historyText = "📜 تاریخچه تجزیه‌ها:\n\n";
-    history.forEach((item, index) => {
-        historyText += `${index + 1}. ${item.seedName} - ${item.provinceName} (${item.score}/100)\n`;
-        historyText += `   ${item.timestamp}\n\n`;
-    });
-
-    alert(historyText);
-}
-
-console.log("✅ اپلیکیشن آماده است!");

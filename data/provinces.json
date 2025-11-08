@@ -1,0 +1,198 @@
+{
+  "provinces": [
+    {
+      "id": "fars",
+      "name": "فارس",
+      "climate": "معتدل-خشک",
+      "avgTemperature": 18,
+      "avgRainfall": 450,
+      "soilTypes": ["رسی", "لومی", "ماسه‌ای"],
+      "coordinates": {"latitude": 29.6, "longitude": 52.5},
+      "factualData": {
+        "averageHumidity": 35,
+        "seasonalRainfall": {
+          "spring": 120,
+          "summer": 10,
+          "autumn": 150,
+          "winter": 170
+        },
+        "soilComposition": {
+          "clay": 35,
+          "silt": 45,
+          "sand": 20
+        },
+        "dominantCrops": ["گندم", "جو", "نخود", "عدس"]
+      }
+    },
+    {
+      "id": "khorasan",
+      "name": "خراسان رضوی",
+      "climate": "کوهستانی-خشک",
+      "avgTemperature": 14,
+      "avgRainfall": 250,
+      "soilTypes": ["لومی", "رسی"],
+      "coordinates": {"latitude": 36.2, "longitude": 59.6},
+      "factualData": {
+        "averageHumidity": 45,
+        "seasonalRainfall": {
+          "spring": 80,
+          "summer": 5,
+          "autumn": 80,
+          "winter": 85
+        },
+        "soilComposition": {
+          "clay": 30,
+          "silt": 50,
+          "sand": 20
+        },
+        "dominantCrops": ["عدس", "نخود", "گندم"]
+      }
+    },
+    {
+      "id": "mazandaran",
+      "name": "مازندران",
+      "climate": "معتدل-مرطوب",
+      "avgTemperature": 16,
+      "avgRainfall": 800,
+      "soilTypes": ["لومی", "رسی آلی"],
+      "coordinates": {"latitude": 36.2, "longitude": 51.4},
+      "factualData": {
+        "averageHumidity": 75,
+        "seasonalRainfall": {
+          "spring": 250,
+          "summer": 150,
+          "autumn": 200,
+          "winter": 200
+        },
+        "soilComposition": {
+          "clay": 25,
+          "silt": 55,
+          "sand": 20,
+          "organic": 10
+        },
+        "dominantCrops": ["برنج", "ذرت", "سویا"]
+      }
+    },
+    {
+      "id": "khuzestan",
+      "name": "خوزستان",
+      "climate": "گرم-خشک",
+      "avgTemperature": 26,
+      "avgRainfall": 200,
+      "soilTypes": ["رسی", "ماسه‌ای"],
+      "coordinates": {"latitude": 31.8, "longitude": 48.7},
+      "factualData": {
+        "averageHumidity": 40,
+        "seasonalRainfall": {
+          "spring": 80,
+          "summer": 5,
+          "autumn": 60,
+          "winter": 55
+        },
+        "soilComposition": {
+          "clay": 40,
+          "silt": 35,
+          "sand": 25
+        },
+        "dominantCrops": ["جو", "پنبه", "ذرت"]
+      }
+    },
+    {
+      "id": "isfahan",
+      "name": "اصفهان",
+      "climate": "معتدل-خشک",
+      "avgTemperature": 17,
+      "avgRainfall": 130,
+      "soilTypes": ["رسی", "لومی"],
+      "coordinates": {"latitude": 32.6, "longitude": 51.6},
+      "factualData": {
+        "averageHumidity": 30,
+        "seasonalRainfall": {
+          "spring": 50,
+          "summer": 5,
+          "autumn": 40,
+          "winter": 35
+        },
+        "soilComposition": {
+          "clay": 38,
+          "silt": 42,
+          "sand": 20
+        },
+        "dominantCrops": ["نخود", "عدس", "یونجه"]
+      }
+    },
+    {
+      "id": "ardabil",
+      "name": "اردبیل",
+      "climate": "کوهستانی-مرطوب",
+      "avgTemperature": 9,
+      "avgRainfall": 600,
+      "soilTypes": ["لومی", "رسی"],
+      "coordinates": {"latitude": 38.1, "longitude": 48.3},
+      "factualData": {
+        "averageHumidity": 65,
+        "seasonalRainfall": {
+          "spring": 180,
+          "summer": 120,
+          "autumn": 150,
+          "winter": 150
+        },
+        "soilComposition": {
+          "clay": 28,
+          "silt": 52,
+          "sand": 20
+        },
+        "dominantCrops": ["برنج", "سیب‌زمینی", "جو"]
+      }
+    },
+    {
+      "id": "gillan",
+      "name": "گیلان",
+      "climate": "ساحلی-مرطوب",
+      "avgTemperature": 15,
+      "avgRainfall": 1200,
+      "soilTypes": ["لومی آلی", "رسی"],
+      "coordinates": {"latitude": 37.2, "longitude": 49.5},
+      "factualData": {
+        "averageHumidity": 80,
+        "seasonalRainfall": {
+          "spring": 350,
+          "summer": 200,
+          "autumn": 300,
+          "winter": 350
+        },
+        "soilComposition": {
+          "clay": 22,
+          "silt": 58,
+          "sand": 15,
+          "organic": 15
+        },
+        "dominantCrops": ["برنج", "چای", "کاکائو"]
+      }
+    },
+    {
+      "id": "tehran",
+      "name": "تهران",
+      "climate": "معتدل-خشک",
+      "avgTemperature": 16,
+      "avgRainfall": 230,
+      "soilTypes": ["رسی", "لومی", "شنی"],
+      "coordinates": {"latitude": 35.7, "longitude": 51.4},
+      "factualData": {
+        "averageHumidity": 50,
+        "seasonalRainfall": {
+          "spring": 80,
+          "summer": 15,
+          "autumn": 65,
+          "winter": 70
+        },
+        "soilComposition": {
+          "clay": 32,
+          "silt": 48,
+          "sand": 20
+        },
+        "dominantCrops": ["یونجه", "جو", "گندم"]
+      }
+    }
+  ]
+}

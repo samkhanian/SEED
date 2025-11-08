@@ -1,0 +1,424 @@
+{
+  "seedTypes": [
+    {
+      "id": "wheat_01",
+      "name": "گندم رقم شیراز",
+      "type": "غلات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 92,
+        "moisture": 12,
+        "purity": 96,
+        "diseaseResistance": "زیاد",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-09-15"
+      },
+      "requirements": {
+        "temperatureRange": [15, 25],
+        "rainfallMin": 300,
+        "soilTypes": ["رسی", "لومی"]
+      },
+      "suitableSeasons": ["بهار", "پاییز"],
+      "suitableProvinces": ["فارس", "کرمان", "یزد", "خراسان رضوی"]
+    },
+    {
+      "id": "wheat_02",
+      "name": "گندم رقم دیم",
+      "type": "غلات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 88,
+        "moisture": 13,
+        "purity": 94,
+        "diseaseResistance": "متوسط",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-08-20"
+      },
+      "requirements": {
+        "temperatureRange": [10, 20],
+        "rainfallMin": 250,
+        "soilTypes": ["لومی", "رسی"]
+      },
+      "suitableSeasons": ["پاییز", "زمستان"],
+      "suitableProvinces": ["اصفهان", "یزد", "سمنان"]
+    },
+    {
+      "id": "barley_01",
+      "name": "جو رقم خوزستان",
+      "type": "غلات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 88,
+        "moisture": 13,
+        "purity": 94,
+        "diseaseResistance": "متوسط",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-07-10"
+      },
+      "requirements": {
+        "temperatureRange": [10, 20],
+        "rainfallMin": 200,
+        "soilTypes": ["رسی", "لومی", "ماسه‌ای"]
+      },
+      "suitableSeasons": ["پاییز", "زمستان"],
+      "suitableProvinces": ["خوزستان", "کرمانشاه", "لرستان"]
+    },
+    {
+      "id": "rice_01",
+      "name": "برنج رقم اردبیل",
+      "type": "غلات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 90,
+        "moisture": 14,
+        "purity": 95,
+        "diseaseResistance": "زیاد",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-09-01"
+      },
+      "requirements": {
+        "temperatureRange": [20, 30],
+        "rainfallMin": 600,
+        "soilTypes": ["لومی", "رسی آلی"]
+      },
+      "suitableSeasons": ["بهار", "تابستان"],
+      "suitableProvinces": ["مازندران", "گیلان", "اردبیل"]
+    },
+    {
+      "id": "lentil_01",
+      "name": "عدس رقم سبز",
+      "type": "حبوبات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 85,
+        "moisture": 11,
+        "purity": 92,
+        "diseaseResistance": "متوسط",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-08-15"
+      },
+      "requirements": {
+        "temperatureRange": [15, 25],
+        "rainfallMin": 300,
+        "soilTypes": ["رسی", "لومی"]
+      },
+      "suitableSeasons": ["بهار", "پاییز"],
+      "suitableProvinces": ["خراسان رضوی", "خراسان شمالی", "سمنان"]
+    },
+    {
+      "id": "lentil_02",
+      "name": "عدس رقم قهوه‌ای",
+      "type": "حبوبات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 82,
+        "moisture": 12,
+        "purity": 90,
+        "diseaseResistance": "کم",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-07-25"
+      },
+      "requirements": {
+        "temperatureRange": [12, 22],
+        "rainfallMin": 280,
+        "soilTypes": ["لومی"]
+      },
+      "suitableSeasons": ["پاییز", "بهار"],
+      "suitableProvinces": ["یزد", "اصفهان"]
+    },
+    {
+      "id": "chickpea_01",
+      "name": "نخود رقم طلایی",
+      "type": "حبوبات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 87,
+        "moisture": 10,
+        "purity": 93,
+        "diseaseResistance": "زیاد",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-08-20"
+      },
+      "requirements": {
+        "temperatureRange": [15, 25],
+        "rainfallMin": 350,
+        "soilTypes": ["رسی", "لومی"]
+      },
+      "suitableSeasons": ["بهار", "پاییز"],
+      "suitableProvinces": ["خراسان", "قم", "اصفهان"]
+    },
+    {
+      "id": "chickpea_02",
+      "name": "نخود رقم دسی",
+      "type": "حبوبات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 84,
+        "moisture": 11,
+        "purity": 91,
+        "diseaseResistance": "متوسط",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-07-30"
+      },
+      "requirements": {
+        "temperatureRange": [12, 22],
+        "rainfallMin": 300,
+        "soilTypes": ["لومی", "رسی"]
+      },
+      "suitableSeasons": ["پاییز", "بهار"],
+      "suitableProvinces": ["یزد", "سمنان"]
+    },
+    {
+      "id": "cotton_01",
+      "name": "پنبه رقم گیزا",
+      "type": "الیاف",
+      "category": "الیافی",
+      "features": {
+        "germinationRate": 83,
+        "moisture": 12,
+        "purity": 90,
+        "diseaseResistance": "متوسط",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-06-15"
+      },
+      "requirements": {
+        "temperatureRange": [20, 35],
+        "rainfallMin": 200,
+        "soilTypes": ["رسی", "ماسه‌ای"]
+      },
+      "suitableSeasons": ["بهار", "تابستان"],
+      "suitableProvinces": ["گلستان", "خراسان", "کرمان"]
+    },
+    {
+      "id": "cotton_02",
+      "name": "پنبه رقم ایرانی۸۷",
+      "type": "الیاف",
+      "category": "الیافی",
+      "features": {
+        "germinationRate": 85,
+        "moisture": 11,
+        "purity": 92,
+        "diseaseResistance": "زیاد",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-06-10"
+      },
+      "requirements": {
+        "temperatureRange": [22, 35],
+        "rainfallMin": 180,
+        "soilTypes": ["رسی"]
+      },
+      "suitableSeasons": ["بهار", "تابستان"],
+      "suitableProvinces": ["کرمان", "خراسان رضوی"]
+    },
+    {
+      "id": "sunflower_01",
+      "name": "آفتاب‌گردان رقم طلایی",
+      "type": "روغنی",
+      "category": "روغنی",
+      "features": {
+        "germinationRate": 89,
+        "moisture": 11,
+        "purity": 94,
+        "diseaseResistance": "زیاد",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-07-20"
+      },
+      "requirements": {
+        "temperatureRange": [15, 30],
+        "rainfallMin": 250,
+        "soilTypes": ["رسی", "لومی"]
+      },
+      "suitableSeasons": ["بهار", "تابستان"],
+      "suitableProvinces": ["فارس", "مرکزی", "قزوین"]
+    },
+    {
+      "id": "canola_01",
+      "name": "کلزا رقم دولی",
+      "type": "روغنی",
+      "category": "روغنی",
+      "features": {
+        "germinationRate": 86,
+        "moisture": 10,
+        "purity": 93,
+        "diseaseResistance": "متوسط",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-08-01"
+      },
+      "requirements": {
+        "temperatureRange": [10, 20],
+        "rainfallMin": 400,
+        "soilTypes": ["لومی", "رسی"]
+      },
+      "suitableSeasons": ["پاییز", "زمستان"],
+      "suitableProvinces": ["آذربایجان", "گیلان"]
+    },
+    {
+      "id": "alfalfa_01",
+      "name": "یونجه رقم ایرانی",
+      "type": "علوفه",
+      "category": "چراگاهی",
+      "features": {
+        "germinationRate": 86,
+        "moisture": 10,
+        "purity": 91,
+        "diseaseResistance": "زیاد",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-05-10"
+      },
+      "requirements": {
+        "temperatureRange": [10, 20],
+        "rainfallMin": 200,
+        "soilTypes": ["لومی", "رسی"]
+      },
+      "suitableSeasons": ["بهار", "پاییز"],
+      "suitableProvinces": ["تهران", "البرز", "مرکزی", "اصفهان"]
+    },
+    {
+      "id": "corn_01",
+      "name": "ذرت رقم هیبریدی",
+      "type": "غلات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 91,
+        "moisture": 13,
+        "purity": 95,
+        "diseaseResistance": "متوسط",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-06-05"
+      },
+      "requirements": {
+        "temperatureRange": [15, 30],
+        "rainfallMin": 400,
+        "soilTypes": ["لومی", "رسی آلی"]
+      },
+      "suitableSeasons": ["بهار", "تابستان"],
+      "suitableProvinces": ["خوزستان", "مازندران", "کرمانشاه"]
+    },
+    {
+      "id": "soybean_01",
+      "name": "سویا رقم ایرانی",
+      "type": "حبوبات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 84,
+        "moisture": 11,
+        "purity": 91,
+        "diseaseResistance": "کم",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-07-01"
+      },
+      "requirements": {
+        "temperatureRange": [18, 28],
+        "rainfallMin": 500,
+        "soilTypes": ["لومی"]
+      },
+      "suitableSeasons": ["بهار", "تابستان"],
+      "suitableProvinces": ["مازندران", "گلستان", "خوزستان"]
+    },
+    {
+      "id": "potato_01",
+      "name": "سیب‌زمینی رقم اسپونتا",
+      "type": "لاشه",
+      "category": "سیب‌زمینی",
+      "features": {
+        "germinationRate": 88,
+        "moisture": 15,
+        "purity": 93,
+        "diseaseResistance": "متوسط",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-04-01"
+      },
+      "requirements": {
+        "temperatureRange": [12, 20],
+        "rainfallMin": 400,
+        "soilTypes": ["لومی", "رسی آلی"]
+      },
+      "suitableSeasons": ["بهار", "پاییز"],
+      "suitableProvinces": ["اردبیل", "آذربایجان شرقی", "همدان"]
+    },
+    {
+      "id": "bean_01",
+      "name": "لوبیا رقم سفید",
+      "type": "حبوبات",
+      "category": "دانه‌ای",
+      "features": {
+        "germinationRate": 81,
+        "moisture": 12,
+        "purity": 89,
+        "diseaseResistance": "کم",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-06-20"
+      },
+      "requirements": {
+        "temperatureRange": [18, 28],
+        "rainfallMin": 300,
+        "soilTypes": ["رسی", "لومی"]
+      },
+      "suitableSeasons": ["بهار", "تابستان"],
+      "suitableProvinces": ["فارس", "کرمان"]
+    },
+    {
+      "id": "cumin_01",
+      "name": "زیره رقم ایرانی",
+      "type": "ادویه",
+      "category": "ادویه‌ای",
+      "features": {
+        "germinationRate": 78,
+        "moisture": 10,
+        "purity": 85,
+        "diseaseResistance": "متوسط",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-08-10"
+      },
+      "requirements": {
+        "temperatureRange": [15, 25],
+        "rainfallMin": 200,
+        "soilTypes": ["رسی", "ماسه‌ای"]
+      },
+      "suitableSeasons": ["پاییز", "زمستان"],
+      "suitableProvinces": ["خراسان", "یزد", "کرمان"]
+    },
+    {
+      "id": "safflower_01",
+      "name": "گل‌ریحان رقم پیوندی",
+      "type": "روغنی",
+      "category": "روغنی",
+      "features": {
+        "germinationRate": 80,
+        "moisture": 11,
+        "purity": 88,
+        "diseaseResistance": "زیاد",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-07-05"
+      },
+      "requirements": {
+        "temperatureRange": [12, 25],
+        "rainfallMin": 200,
+        "soilTypes": ["رسی", "لومی"]
+      },
+      "suitableSeasons": ["پاییز", "بهار"],
+      "suitableProvinces": ["خراسان", "یزد", "اصفهان"]
+    },
+    {
+      "id": "sesame_01",
+      "name": "کنجد رقم سفید",
+      "type": "روغنی",
+      "category": "روغنی",
+      "features": {
+        "germinationRate": 79,
+        "moisture": 9,
+        "purity": 87,
+        "diseaseResistance": "متوسط",
+        "healthStatus": "سالم",
+        "certificationDate": "1402-06-30"
+      },
+      "requirements": {
+        "temperatureRange": [20, 30],
+        "rainfallMin": 150,
+        "soilTypes": ["ماسه‌ای", "لومی"]
+      },
+      "suitableSeasons": ["بهار", "تابستان"],
+      "suitableProvinces": ["خوزستان", "کرمان"]
+    }
+  ]
+}

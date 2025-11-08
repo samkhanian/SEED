@@ -1,383 +1,56 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>سیستم خبره انتخاب بذر کاشت</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="سیستم خبره برای انتخاب بذر مناسب در کشاورزی ایران">
+  <meta name="keywords" content="سیستم خبره، بذر، کشاورزی، ایران">
+  <title>سیستم خبره انتخاب بذر کاشت</title>
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    <!-- Header -->
+  <div class="container">
+    <!-- سرصفحه -->
     <header class="header">
-        <div class="container">
-            <div class="header-content">
-                <div class="logo-section">
-                    <div class="logo-icon">🌾</div>
-                    <div class="header-text">
-                        <h1>سیستم خبره انتخاب بذر</h1>
-                        <p class="subtitle">تشخیص و توصیه بذرهای مناسب برای کاشت</p>
-                    </div>
-                </div>
-                <div class="header-info">
-                    <span class="course">درس: سیستم‌های خبره</span>
-                    <span class="professor">استاد: دکتر نمیریان</span>
-                </div>
-            </div>
-        </div>
+      <div class="logo">
+        <h1>🌾 سیستم خبره انتخاب بذر</h1>
+        <p class="tagline">کمک به کشاورزان برای انتخاب صحیح بذر</p>
+      </div>
     </header>
 
-    <!-- Main Container -->
-    <div class="container">
-        <div class="main-grid">
-            <!-- سمت چپ: فرم ورودی -->
-            <section class="form-section">
-                <div class="section-header">
-                    <h2>📋 ورود اطلاعات</h2>
-                    <p>لطفاً اطلاعات بذر و شرایط محیط را وارد کنید</p>
-                </div>
+    <!-- ناوبری -->
+    <nav class="navbar">
+      <button class="nav-btn active" data-page="home">خانه</button>
+      <button class="nav-btn" data-page="analyzer">تجزیه و تحلیل</button>
+      <button class="nav-btn" data-page="info">درباره</button>
+      <button class="nav-btn" data-page="history">تاریخچه</button>
+    </nav>
 
-                <form id="seedForm" class="input-form">
-                    <!-- گروه اول: انتخاب بذر -->
-                    <div class="form-group">
-                        <label for="seedSelect">
-                            <span class="label-icon">🌱</span>
-                            نوع و رقم بذر
-                        </label>
-                        <select id="seedSelect" required class="form-control">
-                            <option value="">انتخاب کنید...</option>
-                        </select>
-                    </div>
+    <!-- محتوای اصلی -->
+    <main id="mainContent" class="main-content">
+      <!-- محتوا توسط JavaScript جایگذاری می‌شود -->
+    </main>
 
-                    <!-- گروه دوم: ویژگی‌های بذر -->
-                    <div class="form-group-title">
-                        <span class="icon">📊</span>
-                        ویژگی‌های بذر
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="germination">
-                                <span class="label-icon">🔄</span>
-                                جوانه‌زنی (%)
-                            </label>
-                            <input
-                                type="number"
-                                id="germination"
-                                min="0"
-                                max="100"
-                                step="1"
-                                value="85"
-                                required
-                                class="form-control range-input"
-                            >
-                            <small class="help-text">دامنه: 0-100%</small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="moisture">
-                                <span class="label-icon">💧</span>
-                                رطوبت (%)
-                            </label>
-                            <input
-                                type="number"
-                                id="moisture"
-                                min="0"
-                                max="25"
-                                step="0.5"
-                                value="12"
-                                required
-                                class="form-control range-input"
-                            >
-                            <small class="help-text">دامنه: 0-25%</small>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="purity">
-                                <span class="label-icon">✨</span>
-                                خلوص (%)
-                            </label>
-                            <input
-                                type="number"
-                                id="purity"
-                                min="0"
-                                max="100"
-                                step="1"
-                                value="95"
-                                required
-                                class="form-control range-input"
-                            >
-                            <small class="help-text">دامنه: 0-100%</small>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="health">
-                                <span class="label-icon">💪</span>
-                                سلامت بذر
-                            </label>
-                            <select id="health" required class="form-control">
-                                <option value="سالم">سالم</option>
-                                <option value="مریض">مریض</option>
-                                <option value="نیاز تصفیه">نیاز تصفیه</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- گروه سوم: شرایط محیطی -->
-                    <div class="form-group-title">
-                        <span class="icon">🌍</span>
-                        شرایط محیطی
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="provinceSelect">
-                                <span class="label-icon">📍</span>
-                                استان/منطقه
-                            </label>
-                            <select id="provinceSelect" required class="form-control">
-                                <option value="">انتخاب کنید...</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="season">
-                                <span class="label-icon">🌤️</span>
-                                فصل کاشت
-                            </label>
-                            <select id="season" required class="form-control">
-                                <option value="">انتخاب کنید...</option>
-                                <option value="بهار">🌸 بهار</option>
-                                <option value="تابستان">☀️ تابستان</option>
-                                <option value="پاییز">🍂 پاییز</option>
-                                <option value="زمستان">❄️ زمستان</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="soilType">
-                                <span class="label-icon">🏡</span>
-                                نوع خاک
-                            </label>
-                            <select id="soilType" required class="form-control">
-                                <option value="">انتخاب کنید...</option>
-                                <option value="رسی">رسی</option>
-                                <option value="ماسه‌ای">ماسه‌ای</option>
-                                <option value="لومی">لومی</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="diseaseResistance">
-                                <span class="label-icon">🛡️</span>
-                                مقاومت به بیماری
-                            </label>
-                            <select id="diseaseResistance" required class="form-control">
-                                <option value="">انتخاب کنید...</option>
-                                <option value="کم">کم</option>
-                                <option value="متوسط">متوسط</option>
-                                <option value="زیاد">زیاد</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- دکمه‌های عملیات -->
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">
-                            <span class="btn-icon">🔍</span>
-                            تحلیل و ارزیابی
-                        </button>
-                        <button type="reset" class="btn btn-secondary">
-                            <span class="btn-icon">🔄</span>
-                            پاک کردن
-                        </button>
-                    </div>
-                </form>
-
-                <!-- راهنما -->
-                <div class="help-box">
-                    <div class="help-header">
-                        <span class="help-icon">ℹ️</span>
-                        نکات مهم
-                    </div>
-                    <ul class="help-list">
-                        <li>جوانه‌زنی بیشتر = کیفیت بیشتر</li>
-                        <li>رطوبت باید کم باشد (12-14% ایده‌آل)</li>
-                        <li>خلوص بیشتر = محصول بیشتر</li>
-                        <li>نوع خاک نقش مهمی در نتیجه دارد</li>
-                    </ul>
-                </div>
-            </section>
-
-            <!-- سمت راست: نمایش نتایج -->
-            <section class="results-section">
-                <!-- حالت پیش‌فرض -->
-                <div id="defaultState" class="default-state">
-                    <div class="default-content">
-                        <div class="default-icon">🌾</div>
-                        <h3>منتظر اطلاعات شما</h3>
-                        <p>لطفاً فرم را پر کنید و دکمه "تحلیل و ارزیابی" را کلیک کنید</p>
-                        <div class="default-features">
-                            <div class="feature">✨ تحلیل دقیق</div>
-                            <div class="feature">📊 امتیازدهی شفاف</div>
-                            <div class="feature">💡 توصیه‌های متخصصانه</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- حالت نتایج -->
-                <div id="resultsState" class="results-state hidden">
-                    <!-- امتیاز کلی -->
-                    <div class="result-card verdict-card">
-                        <div class="verdict-header">
-                            <h3>نتیجه نهایی</h3>
-                        </div>
-                        <div class="verdict-content">
-                            <div class="verdict-emoji" id="verdictEmoji">✅</div>
-                            <div class="verdict-text">
-                                <div class="verdict-score">
-                                    <span id="overallScore">0</span>
-                                    <span class="score-unit">/100</span>
-                                </div>
-                                <div class="verdict-message" id="verdictMessage"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- اطلاعات بذر -->
-                    <div class="result-card info-card">
-                        <h4 class="card-title">📌 اطلاعات بذر انتخابی</h4>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <span class="info-label">نام بذر:</span>
-                                <span class="info-value" id="seedName">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">نوع:</span>
-                                <span class="info-value" id="seedType">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">منطقه:</span>
-                                <span class="info-value" id="provinceName">-</span>
-                            </div>
-                            <div class="info-item">
-                                <span class="info-label">فصل:</span>
-                                <span class="info-value" id="season">-</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- امتیازات تفصیلی -->
-                    <div class="result-card scores-card">
-                        <h4 class="card-title">📊 امتیازات تفصیلی</h4>
-                        <div class="scores-container">
-                            <div class="score-item">
-                                <div class="score-label">🔄 جوانه‌زنی</div>
-                                <div class="score-bar-container">
-                                    <div class="score-bar" id="germinationBar"></div>
-                                </div>
-                                <div class="score-value" id="germinationScore">0%</div>
-                            </div>
-
-                            <div class="score-item">
-                                <div class="score-label">💧 رطوبت</div>
-                                <div class="score-bar-container">
-                                    <div class="score-bar" id="moistureBar"></div>
-                                </div>
-                                <div class="score-value" id="moistureScore">0%</div>
-                            </div>
-
-                            <div class="score-item">
-                                <div class="score-label">✨ خلوص</div>
-                                <div class="score-bar-container">
-                                    <div class="score-bar" id="purityBar"></div>
-                                </div>
-                                <div class="score-value" id="purityScore">0%</div>
-                            </div>
-
-                            <div class="score-item">
-                                <div class="score-label">🛡️ مقاومت بیماری</div>
-                                <div class="score-bar-container">
-                                    <div class="score-bar" id="diseaseBar"></div>
-                                </div>
-                                <div class="score-value" id="diseaseScore">0%</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- توصیه‌های متخصصانه -->
-                    <div class="result-card recommendations-card">
-                        <h4 class="card-title">💡 توصیه‌های متخصصانه</h4>
-                        <div class="recommendations-list" id="recommendationsList">
-                            <p class="no-recommendations">توصیه‌ای وجود ندارد</p>
-                        </div>
-                    </div>
-
-                    <!-- اطلاعات محیطی -->
-                    <div class="result-card environmental-card">
-                        <h4 class="card-title">🌍 اطلاعات محیطی منطقه</h4>
-                        <div class="env-grid">
-                            <div class="env-item">
-                                <span class="env-label">🌡️ دمای میانگین:</span>
-                                <span class="env-value" id="avgTemp">-</span>
-                            </div>
-                            <div class="env-item">
-                                <span class="env-label">🌧️ بارندگی سالانه:</span>
-                                <span class="env-value" id="avgRainfall">-</span>
-                            </div>
-                            <div class="env-item">
-                                <span class="env-label">❄️ اقلیم:</span>
-                                <span class="env-value" id="climate">-</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- حالت خطا -->
-                <div id="errorState" class="error-state hidden">
-                    <div class="error-content">
-                        <div class="error-icon">❌</div>
-                        <h3>خطای ارزیابی</h3>
-                        <p id="errorMessage"></p>
-                        <button class="btn btn-secondary" onclick="resetForm()">
-                            بازگشت
-                        </button>
-                    </div>
-                </div>
-            </section>
-        </div>
-    </div>
-
-    <!-- Footer -->
+    <!-- فوتر -->
     <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h4>درباره پروژه</h4>
-                    <p>سیستم خبره برای انتخاب بذر کاشت - پروژه درسی در زمینه سیستم‌های خبره</p>
-                </div>
-                <div class="footer-section">
-                    <h4>اطلاعات دانشگاهی</h4>
-                    <p>درس: سیستم‌های خبره</p>
-                    <p>استاد: دکتر نمیریان</p>
-                </div>
-                <div class="footer-section">
-                    <h4>صنایع ایران</h4>
-                    <p>کشاورزی • بذرشناسی • تکنولوژی</p>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 1403 - تمامی حقوق محفوظ است</p>
-            </div>
-        </div>
+      <p>سیستم خبره انتخاب بذر &copy; 1404 - تمام حقوق محفوظ است</p>
+      <p>
+        <small>
+          درس: سیستم‌های خبره | 
+          استاد: دکتر رویا نمیرانیان | 
+          دانشجو: جمال سام خانیان
+        </small>
+      </p>
     </footer>
+  </div>
 
-    <!-- اسکریپت‌ها -->
-    <script src="knowledge-data.js"></script>
-    <script src="engine.js"></script>
-    <script src="app.js"></script>
+  <!-- بارگذاری کتابخانه‌ها و اسکریپت‌ها -->
+  <script src="src/utils.js"></script>
+  <script src="src/engine.js"></script>
+  <script src="src/ui.js"></script>
+  <script src="app.js"></script>
 </body>
+
 </html>

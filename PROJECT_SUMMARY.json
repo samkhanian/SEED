@@ -1,0 +1,407 @@
+{
+  "projectName": "سیستم خبره انتخاب بذر کاشت",
+  "englishName": "Seed Selection Expert System",
+  "version": "2.0",
+  "date": "1404/08/20",
+  "status": "تکمیل شده",
+  
+  "projectInfo": {
+    "course": "سیستم‌های خبره",
+    "professor": "دکتر رویا نمیرانیان",
+    "student": "جمال سام خانیان",
+    "university": "دانشگاه علمی کاربردی - صنایع ایران",
+    "field": "کشاورزی",
+    "difficulty": "متوسط تا بالا"
+  },
+
+  "projectStructure": {
+    "dataDirectory": {
+      "path": "data/",
+      "description": "پایگاه دانش (Knowledge Base)",
+      "files": [
+        {
+          "name": "knowledge.json",
+          "size": "14.6 KB",
+          "description": "دانش فکتی، قاعدی و متا",
+          "content": {
+            "factualKnowledge": "7 فکت بنیادی",
+            "ruleBasedKnowledge": "15 قاعده منطقی",
+            "metaKnowledge": "3 سطح اولویت"
+          }
+        },
+        {
+          "name": "seed-types.json",
+          "size": "13.4 KB",
+          "description": "20+ نوع بذر با ویژگی‌های دقیق",
+          "fields": [
+            "آیدی",
+            "نام",
+            "نوع",
+            "جوانه‌زنی",
+            "رطوبت",
+            "خلوص",
+            "مقاومت بیماری",
+            "الزامات محیطی"
+          ]
+        },
+        {
+          "name": "provinces.json",
+          "size": "5.4 KB",
+          "description": "8 استان ایران",
+          "fields": [
+            "نام",
+            "آب‌وهوا",
+            "دمای میانگین",
+            "بارندگی",
+            "نوع خاک",
+            "مختصات"
+          ]
+        }
+      ]
+    },
+    
+    "srcDirectory": {
+      "path": "src/",
+      "description": "کد های هسته برنامه",
+      "files": [
+        {
+          "name": "engine.js",
+          "size": "11.7 KB",
+          "class": "InferenceEngine",
+          "description": "موتور استنتاج رو‌به‌جلو (Forward Chaining)",
+          "methods": [
+            "calculateScore()",
+            "inferenceForward()",
+            "extractFacts()",
+            "checkRuleConditions()",
+            "evaluateCondition()",
+            "generateFinalConclusion()",
+            "explainConclusion()"
+          ]
+        },
+        {
+          "name": "ui.js",
+          "size": "11.3 KB",
+          "class": "UIManager",
+          "description": "مدیریت رابط کاربری",
+          "pages": [
+            "renderInputForm() - صفحه فرم",
+            "renderResults() - صفحه نتایج",
+            "renderInfoPage() - صفحه اطلاعات",
+            "renderHistory() - صفحه تاریخچه"
+          ]
+        },
+        {
+          "name": "utils.js",
+          "size": "6.8 KB",
+          "class": "Utils",
+          "description": "توابع کمکی و ابزارها",
+          "utilities": [
+            "validateInput()",
+            "saveAnalysisResult()",
+            "getAnalysisHistory()",
+            "exportToJSON()",
+            "exportToCSV()",
+            "persianToEnglish()",
+            "getColorByScore()"
+          ]
+        }
+      ]
+    },
+    
+    "rootFiles": [
+      {
+        "name": "index.html",
+        "size": "2.0 KB",
+        "description": "صفحه HTML اصلی"
+      },
+      {
+        "name": "app.js",
+        "size": "10.4 KB",
+        "description": "برنامه اصلی و مدیریت رویدادها"
+      },
+      {
+        "name": "style.css",
+        "size": "13.5 KB",
+        "description": "استایل‌های جامع و واکنش‌پذیر"
+      }
+    ]
+  },
+
+  "knowledgeBaseStats": {
+    "factualKnowledge": {
+      "count": 7,
+      "description": "دانش بنیادی درباره معیارهای ارزیابی",
+      "examples": [
+        "معیار جوانه‌زنی",
+        "معیار رطوبت",
+        "معیار خلوص",
+        "مقاومت بیماری",
+        "دما و فصل",
+        "نوع خاک",
+        "بارندگی"
+      ]
+    },
+    
+    "ruleBasedKnowledge": {
+      "count": 15,
+      "description": "قوانین IF-THEN برای تصمیم‌گیری",
+      "ruleTypes": {
+        "selectionRules": 7,
+        "warningRules": 5,
+        "maintenanceRules": 3
+      },
+      "priorities": {
+        "level1": "6 قاعده بسیار مهم (وزن: 1.0)",
+        "level2": "6 قاعده معمولی (وزن: 0.75)",
+        "level3": "3 قاعده کمکی (وزن: 0.5)"
+      }
+    },
+    
+    "metaKnowledge": {
+      "count": 3,
+      "description": "سلسله‌مراتب اولویت و اعتماد",
+      "confidenceThresholds": {
+        "mustApply": "≥ 90%",
+        "shouldApply": "80-89%",
+        "couldApply": "70-79%"
+      }
+    },
+    
+    "seedTypes": {
+      "count": 20,
+      "categories": [
+        "غلات (گندم، جو، برنج، ذرت، ...)",
+        "حبوبات (عدس، نخود، لوبیا، سویا)",
+        "روغنی (آفتاب‌گردان، کانولا، ...)",
+        "الیاف (پنبه)",
+        "علوفه (یونجه)",
+        "سیب‌زمینی",
+        "ادویه (زیره)"
+      ]
+    },
+    
+    "provinces": {
+      "count": 8,
+      "list": [
+        "فارس",
+        "خراسان رضوی",
+        "مازندران",
+        "خوزستان",
+        "اصفهان",
+        "اردبیل",
+        "گیلان",
+        "تهران"
+      ]
+    }
+  },
+
+  "scoringSystem": {
+    "description": "نظام نمره‌دهی وزنی",
+    "totalScore": 100,
+    "criteria": [
+      {
+        "name": "جوانه‌زنی",
+        "weight": 10,
+        "importance": "بسیار مهم",
+        "optimalRange": "≥ 85%"
+      },
+      {
+        "name": "رطوبت",
+        "weight": 10,
+        "importance": "بسیار مهم",
+        "optimalRange": "8-14%"
+      },
+      {
+        "name": "خلوص",
+        "weight": 8,
+        "importance": "مهم",
+        "optimalRange": "≥ 90%"
+      },
+      {
+        "name": "مقاومت بیماری",
+        "weight": 9,
+        "importance": "مهم",
+        "optimalRange": "زیاد"
+      },
+      {
+        "name": "دما",
+        "weight": 8,
+        "importance": "مهم",
+        "optimalRange": "فصل‌مناسب"
+      },
+      {
+        "name": "بارندگی",
+        "weight": 7,
+        "importance": "معمولی",
+        "optimalRange": "محصول‌مناسب"
+      }
+    ],
+    "totalWeight": 52,
+    "statusClassification": [
+      {
+        "score": "85-100",
+        "status": "بسیار مناسب",
+        "color": "سبز",
+        "hex": "#27ae60"
+      },
+      {
+        "score": "70-84",
+        "status": "مناسب",
+        "color": "زرد",
+        "hex": "#f39c12"
+      },
+      {
+        "score": "50-69",
+        "status": "قابل‌قبول",
+        "color": "نارنجی",
+        "hex": "#e67e22"
+      },
+      {
+        "score": "0-49",
+        "status": "نامناسب",
+        "color": "قرمز",
+        "hex": "#e74c3c"
+      }
+    ]
+  },
+
+  "inferenceEngine": {
+    "method": "Forward Chaining (استنتاج رو‌به‌جلو)",
+    "processSteps": [
+      "1. استخراج فکت‌های ورودی",
+      "2. محاسبه امتیاز برای هر معیار",
+      "3. مرتب کردن قوانین بر اساس اولویت",
+      "4. بررسی شرایط هر قاعده",
+      "5. اعمال قوانین منطبق",
+      "6. جمع‌آوری نتایج و هشدارها",
+      "7. تولید نتیجه نهایی"
+    ]
+  },
+
+  "userInterface": {
+    "pages": [
+      {
+        "name": "Home",
+        "description": "صفحه خانه",
+        "components": [
+          "معرفی سیستم",
+          "ویژگی‌های کلیدی",
+          "آمار‌های پروژه",
+          "دکمه شروع"
+        ]
+      },
+      {
+        "name": "Analyzer",
+        "description": "صفحه تجزیه",
+        "components": [
+          "فرم اطلاعات بذر",
+          "فرم شرایط محیط",
+          "دکمه تحلیل",
+          "دکمه پاک کردن"
+        ]
+      },
+      {
+        "name": "Results",
+        "description": "صفحه نتایج",
+        "components": [
+          "نمره‌ی دایره‌ای",
+          "وضعیت و رنگ‌بندی",
+          "هشدارها و نکات اهم",
+          "توصیه‌های بهبود",
+          "جداول تحلیل",
+          "دکمه‌های صادرات"
+        ]
+      },
+      {
+        "name": "Info",
+        "description": "صفحه اطلاعات",
+        "components": [
+          "جدول معیارهای ارزیابی",
+          "شرح دقیق سیستم"
+        ]
+      },
+      {
+        "name": "History",
+        "description": "صفحه تاریخچه",
+        "components": [
+          "لیست تجزیه‌های قبلی",
+          "نمره و وضعیت هر تجزیه",
+          "تاریخ و ساعت"
+        ]
+      }
+    ],
+
+    "features": [
+      "ناوبری دسته‌ای سهل‌الوصول",
+      "فرم‌های تجزیه‌شده",
+      "نمایش نتایج با رنگ‌بندی",
+      "صادرات JSON و CSV",
+      "ذخیره تاریخچه",
+      "طراحی واکنش‌پذیر",
+      "حالت چاپ دوستانه"
+    ]
+  },
+
+  "fileStats": {
+    "totalFiles": 13,
+    "breakdown": {
+      "jsonFiles": 3,
+      "javascriptFiles": 6,
+      "htmlFiles": 1,
+      "cssFiles": 1,
+      "documentationFiles": 3
+    },
+    "totalSize": "149 KB"
+  },
+
+  "improvements": [
+    "✓ ساختار معماری مدرن",
+    "✓ جداسازی مسائل (Separation of Concerns)",
+    "✓ پایگاه دانش جامع و منظم",
+    "✓ موتور استنتاج قابل‌توسعه",
+    "✓ رابط کاربری دوستانه",
+    "✓ توثیق فراوان",
+    "✓ قابلیت صادرات نتایج",
+    "✓ تاریخچه ذخیره شده"
+  ],
+
+  "documentation": {
+    "README.md": "مستندات اصلی و معرفی پروژه",
+    "STRUCTURE.md": "توضیح معماری و ساختار",
+    "KNOWLEDGE_SUMMARY.md": "خلاصه جامع پایگاه دانش",
+    "IMPLEMENTATION_SUMMARY.md": "خلاصه بازسازی و پیاده‌سازی",
+    "PROJECT_SUMMARY.json": "این فایل - خلاصه JSON"
+  },
+
+  "contact": {
+    "email": "j.samkhanian@gmail.com",
+    "course": "سیستم‌های خبره",
+    "professor": "دکتر رویا نمیرانیان"
+  },
+
+  "completionStatus": {
+    "knowledgeBase": "✅ تکمیل",
+    "inferenceEngine": "✅ تکمیل",
+    "userInterface": "✅ تکمیل",
+    "utilities": "✅ تکمیل",
+    "styling": "✅ تکمیل",
+    "documentation": "✅ تکمیل",
+    "overallStatus": "✅ 100% تکمیل شده"
+  },
+
+  "notes": {
+    "important": [
+      "تمام متون فارسی است",
+      "موتور استنتاج Forward Chaining استفاده می‌کند",
+      "نتایج در LocalStorage ذخیره می‌شوند",
+      "صادرات برای JSON و CSV فراهم است"
+    ],
+    "futureWork": [
+      "اضافه کردن الگوریتم‌های Machine Learning",
+      "پایگاه اطلاعات برای داده‌های بیشتر",
+      "API برای دسترسی دوری",
+      "برنامه موبایل"
+    ]
+  }
+}

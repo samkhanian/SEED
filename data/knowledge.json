@@ -1,0 +1,382 @@
+{
+  "knowledge": {
+    "factualKnowledge": {
+      "description": "دانش فکتی - اطلاعات ثابت درباره بذرها و شرایط محیطی",
+      "facts": [
+        {
+          "id": "fact_001",
+          "category": "معیار جوانه‌زنی",
+          "content": "درصد جوانه‌زنی بالاتر از 85% نشانه بذر سالم و کاربردی است",
+          "threshold": {"low": 75, "acceptable": 85, "excellent": 90},
+          "weight": 10
+        },
+        {
+          "id": "fact_002",
+          "category": "معیار رطوبت",
+          "content": "رطوبت بالاتر از 18% نیاز به خشک‌سازی یا تصفیه دارد",
+          "optimal_range": [8, 14],
+          "warning_threshold": 16,
+          "danger_threshold": 18,
+          "weight": 10
+        },
+        {
+          "id": "fact_003",
+          "category": "معیار خلوص",
+          "content": "خلوص کمتر از 90% نیاز به تمیزسازی دارد",
+          "threshold": {"low": 85, "acceptable": 90, "excellent": 95},
+          "weight": 8
+        },
+        {
+          "id": "fact_004",
+          "category": "مقاومت بیماری",
+          "content": "مناطق مرطوب نیاز به بذرهای مقاوم دارند",
+          "rainfallThreshold": 600,
+          "weight": 9
+        },
+        {
+          "id": "fact_005",
+          "category": "دما و فصل",
+          "content": "هر بذر محدوده‌ای از درجه حرارت را نیاز دارد",
+          "springTemp": [15, 25],
+          "summerTemp": [20, 35],
+          "autumnTemp": [12, 22],
+          "winterTemp": [5, 15],
+          "weight": 8
+        },
+        {
+          "id": "fact_006",
+          "category": "نوع خاک",
+          "content": "برنج به خاک لومی و رسی آلی نیاز دارد",
+          "crop": "برنج",
+          "soilRequirement": ["لومی", "رسی آلی"],
+          "weight": 9
+        },
+        {
+          "id": "fact_007",
+          "category": "بارندگی",
+          "content": "غلات بهترین رشد خود را با 300-500 میلی‌متر بارندگی دارند",
+          "crop": "غلات",
+          "rainfallRange": [300, 500],
+          "weight": 7
+        }
+      ]
+    },
+    "ruleBasedKnowledge": {
+      "description": "دانش قاعدی - قوانین IF-THEN برای تصمیم‌گیری",
+      "rules": [
+        {
+          "id": "rule_001",
+          "name": "قاعده انتخاب گندم در فصل بهار",
+          "type": "selection",
+          "priority": 1,
+          "conditions": {
+            "seedType": "گندم",
+            "season": "بهار",
+            "germinationMin": 85,
+            "moistureMax": 14,
+            "purityMin": 90,
+            "soilType": ["رسی", "لومی"],
+            "temperatureRange": [15, 25],
+            "rainfallMin": 300
+          },
+          "conclusion": "مناسب برای کاشت فوری",
+          "confidence": 95,
+          "weight": 10,
+          "recommendations": [
+            "بذر را 2-3 سانتی‌متر در خاک دفن کنید",
+            "فاصله‌ی بین ردیف‌ها 20 سانتی‌متر باشد",
+            "از آب‌ریزی نه‌چندان عمیق استفاده کنید"
+          ]
+        },
+        {
+          "id": "rule_002",
+          "name": "قاعده انتخاب جو در پاییز",
+          "type": "selection",
+          "priority": 2,
+          "conditions": {
+            "seedType": "جو",
+            "season": "پاییز",
+            "germinationMin": 85,
+            "moistureMax": 15,
+            "soilType": ["رسی", "لومی", "ماسه‌ای"],
+            "temperatureRange": [10, 20]
+          },
+          "conclusion": "مناسب",
+          "confidence": 92,
+          "weight": 9,
+          "recommendations": [
+            "کاشت در اواخر پاییز بهترین است",
+            "دانه‌کار کاربر را 8-10 کیلوگرم در هکتار انتخاب کنید"
+          ]
+        },
+        {
+          "id": "rule_003",
+          "name": "قاعده تحذیر: رطوبت زیاد",
+          "type": "warning",
+          "priority": 1,
+          "conditions": {
+            "moisture": ">18"
+          },
+          "conclusion": "نیاز به خشک‌سازی",
+          "confidence": 98,
+          "weight": 10,
+          "recommendations": [
+            "بذر را 5-7 روز در مکان خنثی و با تهویه خوب نگهدارید",
+            "از دما‌های کمتر از 40 درجه سانتی‌گراد استفاده کنید",
+            "رطوبت را تا 12-14% کاهش دهید"
+          ]
+        },
+        {
+          "id": "rule_004",
+          "name": "قاعده تحذیر: جوانه‌زنی پایین",
+          "type": "warning",
+          "priority": 1,
+          "conditions": {
+            "germinationRate": "<75"
+          },
+          "conclusion": "نامناسب برای کاشت",
+          "confidence": 96,
+          "weight": 10,
+          "recommendations": [
+            "از این بذر استفاده نکنید",
+            "بذر جدید و معتبر تهیه کنید",
+            "بررسی شرایط نگهداری قبلی را انجام دهید"
+          ]
+        },
+        {
+          "id": "rule_005",
+          "name": "قاعده انتخاب برنج در مناطق مرطوب",
+          "type": "selection",
+          "priority": 2,
+          "conditions": {
+            "seedType": "برنج",
+            "rainfallMin": 600,
+            "season": ["بهار", "تابستان"],
+            "germinationMin": 88,
+            "moistureMax": 14
+          },
+          "conclusion": "مناسب",
+          "confidence": 93,
+          "weight": 9,
+          "recommendations": [
+            "برنج نیاز به آب‌ریزی زیاد دارد",
+            "از خاک لومی استفاده کنید",
+            "فاصله‌ی کاشت 15-20 سانتی‌متر باشد"
+          ]
+        },
+        {
+          "id": "rule_006",
+          "name": "قاعده انتخاب حبوبات در مناطق خشک",
+          "type": "selection",
+          "priority": 1,
+          "conditions": {
+            "seedType": ["عدس", "نخود", "لوبیا"],
+            "rainfallMax": 400,
+            "germinationMin": 83,
+            "moisture": "<12",
+            "soilType": ["رسی", "لومی"]
+          },
+          "conclusion": "مناسب",
+          "confidence": 91,
+          "weight": 8,
+          "recommendations": [
+            "حبوبات برای خاک‌های خشک مناسب هستند",
+            "کود دهی کم برای تقویت تنش‌تحمل بگذارید",
+            "فاصله کاشت 25-30 سانتی‌متر توصیه می‌شود"
+          ]
+        },
+        {
+          "id": "rule_007",
+          "name": "قاعده تحذیر: خاک ناسازگار برای برنج",
+          "type": "warning",
+          "priority": 1,
+          "conditions": {
+            "seedType": "برنج",
+            "soilType": "ماسه‌ای"
+          },
+          "conclusion": "نامناسب",
+          "confidence": 90,
+          "weight": 8,
+          "recommendations": [
+            "برنج برای خاک ماسه‌ای مناسب نیست",
+            "سویا یا آفتاب‌گردان را امتحان کنید",
+            "اگر ضروری است، خاک را با ماده‌ی آلی غنی کنید"
+          ]
+        },
+        {
+          "id": "rule_008",
+          "name": "قاعده انتخاب برای مناطق سرد",
+          "type": "selection",
+          "priority": 2,
+          "conditions": {
+            "temperature": "<15",
+            "seedType": ["جو", "گندم", "عدس"]
+          },
+          "conclusion": "مناسب",
+          "confidence": 89,
+          "weight": 7,
+          "recommendations": [
+            "محصولات دیم برای مناطق سرد بهتر هستند",
+            "از رقم‌های مقاوم برای سرمازدگی استفاده کنید"
+          ]
+        },
+        {
+          "id": "rule_009",
+          "name": "قاعده انتخاب روغنی‌ها",
+          "type": "selection",
+          "priority": 1,
+          "conditions": {
+            "seedType": ["آفتاب‌گردان", "سویا", "کانولا"],
+            "season": "بهار",
+            "temperatureRange": [15, 30],
+            "moisture": "<12"
+          },
+          "conclusion": "مناسب",
+          "confidence": 88,
+          "weight": 7,
+          "recommendations": [
+            "روغنی‌ها نیاز به دما‌های گرم دارند",
+            "فاصله کاشت 40-50 سانتی‌متر مناسب است"
+          ]
+        },
+        {
+          "id": "rule_010",
+          "name": "قاعده انتخاب علوفه",
+          "type": "selection",
+          "priority": 2,
+          "conditions": {
+            "seedType": "یونجه",
+            "temperature": [10, 20],
+            "rainfallMin": 200,
+            "soilType": ["لومی", "رسی"]
+          },
+          "conclusion": "مناسب",
+          "confidence": 90,
+          "weight": 8,
+          "recommendations": [
+            "یونجه برای گله‌داری مناسب است",
+            "می‌تواند چندین سال پایدار بماند"
+          ]
+        },
+        {
+          "id": "rule_011",
+          "name": "قاعده تصفیه: خلوص پایین",
+          "type": "maintenance",
+          "priority": 2,
+          "conditions": {
+            "purity": "<90"
+          },
+          "conclusion": "نیاز به تمیزسازی",
+          "confidence": 94,
+          "weight": 9,
+          "recommendations": [
+            "بذر را از طریق سیمین و هوا‌کش تمیز کنید",
+            "فرآیند 3-5 روز طول می‌کشد",
+            "خلوص را به بالای 92% برسانید"
+          ]
+        },
+        {
+          "id": "rule_012",
+          "name": "قاعده مقاومت بیماری در مناطق مرطوب",
+          "type": "warning",
+          "priority": 1,
+          "conditions": {
+            "rainfallMin": 800,
+            "diseaseResistance": "کم"
+          },
+          "conclusion": "نامناسب",
+          "confidence": 92,
+          "weight": 9,
+          "recommendations": [
+            "در مناطق مرطوب، بذرهای مقاوم الزامی است",
+            "از قارچ‌کش‌های وقایی استفاده کنید",
+            "رقم‌های محلی مقاوم را انتخاب کنید"
+          ]
+        },
+        {
+          "id": "rule_013",
+          "name": "قاعده انتخاب برای فصل پاییز",
+          "type": "selection",
+          "priority": 2,
+          "conditions": {
+            "season": "پاییز",
+            "seedType": ["گندم", "جو", "عدس"],
+            "temperature": "<20"
+          },
+          "conclusion": "مناسب",
+          "confidence": 87,
+          "weight": 7,
+          "recommendations": [
+            "پاییز بهترین فصل کاشت غلات است"
+          ]
+        },
+        {
+          "id": "rule_014",
+          "name": "قاعده تحذیر: دما زیاد برای مناطق خنک",
+          "type": "warning",
+          "priority": 1,
+          "conditions": {
+            "temperature": ">35",
+            "seedType": ["برنج", "عدس", "جو"]
+          },
+          "conclusion": "نامناسب",
+          "confidence": 93,
+          "weight": 8,
+          "recommendations": [
+            "محصولات سرد‌دوست برای مناطق داغ نامناسب هستند",
+            "از محصولات گرم‌دوست استفاده کنید"
+          ]
+        },
+        {
+          "id": "rule_015",
+          "name": "قاعده انتخاب درخت برای تابستان",
+          "type": "selection",
+          "priority": 2,
+          "conditions": {
+            "season": "تابستان",
+            "seedType": ["ذرت", "آفتاب‌گردان"],
+            "temperature": ">25"
+          },
+          "conclusion": "مناسب",
+          "confidence": 85,
+          "weight": 6,
+          "recommendations": [
+            "محصولات تابستانی نیاز به دما‌های بالا دارند"
+          ]
+        }
+      ]
+    },
+    "metaKnowledge": {
+      "description": "دانش متا - اطلاعات درباره اطمینان و اولویت قوانین",
+      "rulePriorities": [
+        {
+          "priority": 1,
+          "description": "قوانین بسیار مهم و ضروری",
+          "rules": ["rule_001", "rule_003", "rule_004", "rule_007", "rule_012", "rule_014"],
+          "weight": 1.0
+        },
+        {
+          "priority": 2,
+          "description": "قوانین معمولی",
+          "rules": ["rule_002", "rule_005", "rule_008", "rule_010", "rule_013", "rule_015"],
+          "weight": 0.75
+        },
+        {
+          "priority": 3,
+          "description": "قوانین کمکی",
+          "rules": ["rule_006", "rule_009", "rule_011"],
+          "weight": 0.5
+        }
+      ],
+      "confidenceThresholds": {
+        "mustApply": 90,
+        "shouldApply": 80,
+        "couldApply": 70
+      },
+      "ruleChaining": {
+        "strategy": "forward-chaining",
+        "description": "شروع از داده‌های ورودی و حرکت به سمت نتایج"
+      }
+    }
+  }
+}
