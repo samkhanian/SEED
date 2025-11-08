@@ -214,14 +214,14 @@ function handleAnalysis() {
   // تبدیل اعداد فارسی به انگلیسی اگر لازم باشد
   const processedInput = {
     seedType: input.seedType,
-    germinationRate: input.germinationRate ? parseFloat(Utils.persianToEnglish(input.germinationRate.toString())) : 0,
-    moisture: input.moisture ? parseFloat(Utils.persianToEnglish(input.moisture.toString())) : 0,
-    purity: input.purity ? parseFloat(Utils.persianToEnglish(input.purity.toString())) : 0,
+    germinationRate: input.germinationRate !== '' ? parseFloat(Utils.persianToEnglish(input.germinationRate.toString())) : 0,
+    moisture: input.moisture !== '' ? parseFloat(Utils.persianToEnglish(input.moisture.toString())) : 0,
+    purity: input.purity !== '' ? parseFloat(Utils.persianToEnglish(input.purity.toString())) : 0,
     diseaseResistance: input.diseaseResistance,
     season: input.season,
     province: input.province,
-    temperature: input.temperature ? parseFloat(Utils.persianToEnglish(input.temperature.toString())) : 0,
-    rainfall: input.rainfall ? parseFloat(Utils.persianToEnglish(input.rainfall.toString())) : 0,
+    temperature: input.temperature !== '' ? parseFloat(Utils.persianToEnglish(input.temperature.toString())) : 0,
+    rainfall: input.rainfall !== '' ? parseFloat(Utils.persianToEnglish(input.rainfall.toString())) : 0,
     soilType: input.soilType
   };
 

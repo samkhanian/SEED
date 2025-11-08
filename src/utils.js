@@ -170,22 +170,32 @@ class Utils {
       errors.push('نوع بذر الزامی است');
     }
 
-    if (!input.germinationRate || input.germinationRate === '') {
+    // برای فیلدهای عددی، بررسی کنید که string خالی نیست (صفر مقدار معتبری است)
+    if (input.germinationRate === '' || input.germinationRate === null || input.germinationRate === undefined) {
       errors.push('درصد جوانه‌زنی الزامی است');
-    } else if (input.germinationRate < 0 || input.germinationRate > 100) {
-      errors.push('جوانه‌زنی باید بین 0 و 100 باشد');
+    } else {
+      const value = parseFloat(input.germinationRate);
+      if (isNaN(value) || value < 0 || value > 100) {
+        errors.push('جوانه‌زنی باید بین 0 و 100 باشد');
+      }
     }
 
-    if (!input.moisture || input.moisture === '') {
+    if (input.moisture === '' || input.moisture === null || input.moisture === undefined) {
       errors.push('درصد رطوبت الزامی است');
-    } else if (input.moisture < 0 || input.moisture > 30) {
-      errors.push('رطوبت باید بین 0 و 30 باشد');
+    } else {
+      const value = parseFloat(input.moisture);
+      if (isNaN(value) || value < 0 || value > 30) {
+        errors.push('رطوبت باید بین 0 و 30 باشد');
+      }
     }
 
-    if (!input.purity || input.purity === '') {
+    if (input.purity === '' || input.purity === null || input.purity === undefined) {
       errors.push('درصد خلوص الزامی است');
-    } else if (input.purity < 0 || input.purity > 100) {
-      errors.push('خلوص باید بین 0 و 100 باشد');
+    } else {
+      const value = parseFloat(input.purity);
+      if (isNaN(value) || value < 0 || value > 100) {
+        errors.push('خلوص باید بین 0 و 100 باشد');
+      }
     }
 
     if (!input.diseaseResistance || input.diseaseResistance.trim() === '') {
@@ -200,16 +210,22 @@ class Utils {
       errors.push('استان الزامی است');
     }
 
-    if (!input.temperature || input.temperature === '') {
+    if (input.temperature === '' || input.temperature === null || input.temperature === undefined) {
       errors.push('دمای میانگین الزامی است');
-    } else if (input.temperature < -20 || input.temperature > 50) {
-      errors.push('دما باید بین -20 و 50 درجه سانتی‌گراد باشد');
+    } else {
+      const value = parseFloat(input.temperature);
+      if (isNaN(value) || value < -20 || value > 50) {
+        errors.push('دما باید بین -20 و 50 درجه سانتی‌گراد باشد');
+      }
     }
 
-    if (!input.rainfall || input.rainfall === '') {
+    if (input.rainfall === '' || input.rainfall === null || input.rainfall === undefined) {
       errors.push('میانگین بارندگی الزامی است');
-    } else if (input.rainfall < 0 || input.rainfall > 2000) {
-      errors.push('بارندگی باید بین 0 و 2000 میلی‌متر باشد');
+    } else {
+      const value = parseFloat(input.rainfall);
+      if (isNaN(value) || value < 0 || value > 2000) {
+        errors.push('بارندگی باید بین 0 و 2000 میلی‌متر باشد');
+      }
     }
 
     if (!input.soilType || input.soilType.trim() === '') {
